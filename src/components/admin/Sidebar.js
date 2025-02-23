@@ -9,7 +9,8 @@ const Sidebar = () => {
       <ul className="menu-list">
         <li><Link to="/administracion/clientes">Clientes</Link></li>
         <li><Link to="/administracion/actividades">Actividades</Link></li>
-        {/* Otros enlaces */}
+        <li><Link to="/administracion/profesores">Profesores</Link></li>
+        <li><Link to="/administracion/pagos">Pagos</Link></li>
       </ul>
     </aside>
   );
