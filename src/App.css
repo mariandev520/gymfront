@@ -1,38 +1,50 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
+/* Agregar en src/App.css */
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+  }
+}
+
+.main-content {
+  animation: fadeIn 1s ease-out;
+}
+
+
+/* Estilo para el sidebar */
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #363636;
+  color: white;
+  padding-top: 30px;
+  transition: transform 0.3s ease;
+}
+
+.menu.is-active {
+  transform: translateX(0);
+}
+
+.menu-list {
+  padding-left: 20px;
+}
+
+.menu-list li {
+  margin-bottom: 15px;
+}
+
+/* Hacer que el sidebar desaparezca en pantallas pequeñas */
+.is-hidden-mobile {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .is-hidden-mobile {
+    display: block;
   }
 }
