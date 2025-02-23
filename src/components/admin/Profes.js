@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const Profesores = () => {
+const Profes= () => {
   const [profesores, setProfesores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newProfesor, setNewProfesor] = useState({ nombre: '' });
@@ -128,4 +128,4 @@ const Profesores = () => {
   );
 };
 
-export default Profesores;
+export default Profes;

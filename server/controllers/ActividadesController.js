@@ -1,10 +1,11 @@
-// server/controllers/actividadesController.js
+// controllers/actividadesController.js
 const connection = require('../db');
 
 // Crear una actividad
 exports.createActividad = (req, res) => {
-  const { nombre } = req.body;
-  const query = 'INSERT INTO actividades (nombre) VALUES (?)';
+  const { nombre } = req.body;  // Obtener los datos del cuerpo de la solicitud
+  const query = 'INSERT INTO actividades (nombre) VALUES (?)';  // Query para agregar la actividad
+
   connection.query(query, [nombre], (err, result) => {
     if (err) {
       res.status(500).json({ message: 'Error al agregar actividad', error: err });
