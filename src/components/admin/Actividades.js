@@ -6,6 +6,7 @@ const Actividades = () => {
   const [loading, setLoading] = useState(true);
   const [newActividad, setNewActividad] = useState({ nombre: '' });
   const [editActividad, setEditActividad] = useState(null);
+  const [error, setError] = useState(''); // Estado para almacenar mensajes de error
 
   // Obtener las actividades desde la API
   useEffect(() => {
@@ -16,6 +17,7 @@ const Actividades = () => {
       })
       .catch(error => {
         console.error('Error al obtener las actividades:', error);
+        setError('Hubo un problema al obtener las actividades.'); // Mostrar mensaje de error
         setLoading(false);
       });
   }, []);
@@ -34,6 +36,7 @@ const Actividades = () => {
       })
       .catch(error => {
         console.error('Error al agregar la actividad:', error);
+        setError('Hubo un problema al agregar la actividad.'); // Mostrar mensaje de error
       });
   };
 
@@ -44,6 +47,7 @@ const Actividades = () => {
       })
       .catch(error => {
         console.error('Error al eliminar la actividad:', error);
+        setError('Hubo un problema al eliminar la actividad.'); // Mostrar mensaje de error
       });
   };
 
@@ -62,6 +66,7 @@ const Actividades = () => {
       })
       .catch(error => {
         console.error('Error al actualizar la actividad:', error);
+        setError('Hubo un problema al actualizar la actividad.'); // Mostrar mensaje de error
       });
   };
 
@@ -72,6 +77,9 @@ const Actividades = () => {
   return (
     <div>
       <h1>Actividades</h1>
+
+      {/* Mensaje de error */}
+      {error && <div style={{ color: 'red' }}>{error}</div>}
 
       {/* Formulario para agregar una nueva actividad */}
       <h2>Agregar Actividad</h2>
@@ -104,9 +112,10 @@ const Actividades = () => {
         </div>
       )}
 
+      {/* Lista de actividades */}
       <ul>
         {actividades.map(actividad => (
-          <li key={actividad.id}>
+          <li  style={{ color: 'red' }} key={actividad.id}>
             <span>{actividad.nombre}</span>
             <button onClick={() => handleEditActividad(actividad)}>Editar</button>
             <button onClick={() => handleDeleteActividad(actividad.id)}>Eliminar</button>

@@ -1,7 +1,7 @@
 // routes/actividades.js
 const express = require('express');
 const router = express.Router();
-const actividadesController = require('../controllers/ActividadesController');
+const actividadesController = require('../controllers/actividadesController');
 
 // Obtener todas las actividades
 router.get('/', actividadesController.getActividades);

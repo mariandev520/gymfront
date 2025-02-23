@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+
 import Login from './components/Login';
 import MisDatos from './components/MisDatos';
 import Administracion from './components/Administracion';
