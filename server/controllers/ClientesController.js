@@ -34,6 +34,39 @@ exports.createCliente = (req, res) => {
         }
     });
 };
+
+exports.getClientesConProfesoresYActividades = (req, res) => {
+    const query = `
+      SELECT 
+        c.id AS cliente_id,
+        c.nombre AS cliente_nombre,
+        c.direccion,
+        c.correo,
+        c.telefono,
+        c.tarifa_mensual,
+        GROUP_CONCAT(p.nombre) AS profesores,
+        GROUP_CONCAT(a.nombre) AS actividades
+      FROM 
+        clientes c
+      LEFT JOIN 
+        cliente_profesor cp ON c.id = cp.cliente_id
+      LEFT JOIN 
+        profesores p ON cp.profesor_id = p.id
+      LEFT JOIN 
+        cliente_actividad ca ON c.id = ca.cliente_id
+      LEFT JOIN 
+        actividades a ON ca.actividad_id = a.id
+      GROUP BY 
+        c.id;
+    `;
+    connection.query(query, (err, results) => {
+      if (err) {
+        res.status(500).json({ message: 'Error al obtener clientes', error: err });
+      } else {
+        res.status(200).json(results);
+      }
+    });
+  };
  
 
 // Obtener todos los clientes

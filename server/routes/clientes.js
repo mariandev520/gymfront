@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const clientesController = require('../controllers/ClientesController');
 
+
+// Obtener clientes con sus profesores y actividades
+router.get('/clientes-con-profesores-y-actividades', clientesController.getClientesConProfesoresYActividades);
+
 // Obtener todos los clientes
 router.get('/', clientesController.getClientes);
 

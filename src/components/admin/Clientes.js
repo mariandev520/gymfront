@@ -32,6 +32,13 @@ const Clientes = () => {
       .catch(error => console.error('Error fetching clientes:', error));
   }, []);
 
+ // Obtener clientes con sus profesores y actividades
+ useEffect(() => {
+    axios.get('http://localhost:3001/clientes/clientes-con-profesores-y-actividades')
+      .then(response => setClientes(response.data))
+      .catch(error => console.error('Error fetching clientes:', error));
+  }, []);
+
   // Manejar cambios en los inputs
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -247,50 +254,27 @@ const Clientes = () => {
               <tr>
                 <th>ID</th>
                 <th>Nombre</th>
+                <th>Dirección</th>
                 <th>Correo</th>
                 <th>Teléfono</th>
                 <th>Tarifa Mensual</th>
-                <th>Actividades</th>
                 <th>Profesores</th>
-                <th>Acciones</th>
+                <th>Actividades</th>
               </tr>
             </thead>
             <tbody>
-              {clientes.length > 0 ? (
-                clientes.map(cliente => (
-                  <tr key={cliente.id}>
-                    <td>{cliente.id}</td>
-                    <td>{cliente.nombre}</td>
-                    <td>{cliente.correo}</td>
-                    <td>{cliente.telefono}</td>
-                    <td>{cliente.tarifa_mensual}</td>
-                    <td>
-                      {cliente.actividades}
-                    </td>
-                    <td>
-                      {cliente.profesores}
-                    </td>
-                    <td>
-                      <button
-                        className="button is-small is-info is-outlined"
-                        onClick={() => handleEditCliente(cliente)}
-                      >
-                        Editar
-                      </button>
-                      <button
-                        className="button is-small is-danger is-outlined ml-2"
-                        onClick={() => handleDeleteCliente(cliente.id)}
-                      >
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="8">No hay clientes registrados.</td>
+              {clientes.map(cliente => (
+                <tr key={cliente.cliente_id}>
+                  <td>{cliente.cliente_id}</td>
+                  <td>{cliente.cliente_nombre}</td>
+                  <td>{cliente.direccion}</td>
+                  <td>{cliente.correo}</td>
+                  <td>{cliente.telefono}</td>
+                  <td>{cliente.tarifa_mensual}</td>
+                  <td>{cliente.profesores}</td>
+                  <td>{cliente.actividades}</td>
                 </tr>
-              )}
+              ))}
             </tbody>
           </table>
         </div>
