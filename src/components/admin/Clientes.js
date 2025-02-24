@@ -78,6 +78,7 @@ const Clientes = () => {
         setError('Hubo un problema al eliminar el cliente.');
       });
   };
+  
 
   const handleEditCliente = (cliente) => {
     setEditCliente(cliente);
@@ -238,9 +239,22 @@ const Clientes = () => {
                     <td>{cliente.telefono}</td>
                     <td>{cliente.tarifa_mensual}</td>
 
- <td>{ cliente.nombre.actividad}
+                    <td>
+  {cliente.actividades && cliente.actividades.length > 0 ? (
+    cliente.actividades.slice(0, 3).map((actividadId, index) => {
+      const actividad = actividades.find(act => act.id === actividadId);
+      return actividad ? (
+        <div key={index}>
+          {actividad.id} - {actividad.nombre}
+        </div>
+      ) : null;
+    })
+  ) : (
+    <span>Sin actividades</span>
+  )}
 </td>
 
+ 
                     <td>{cliente.profesores}</td>
                     <td>
                       <button
