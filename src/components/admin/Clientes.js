@@ -16,7 +16,6 @@ const Clientes = () => {
   });
   const [editCliente, setEditCliente] = useState(null);
   const [error, setError] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
 
   // Obtener datos iniciales
   useEffect(() => {
@@ -48,16 +47,6 @@ const Clientes = () => {
     setNewCliente({ ...newCliente, [name]: selectedValues });
   };
 
-  // Abrir el modal
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  // Cerrar el modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   // Agregar un nuevo cliente
   const handleSubmitNewCliente = (e) => {
     e.preventDefault();
@@ -72,7 +61,6 @@ const Clientes = () => {
           actividades: [],
           profesores: [],
         });
-        closeModal(); // Cerrar el modal después de agregar
       })
       .catch(error => {
         console.error('Error al agregar el cliente:', error);
@@ -121,133 +109,133 @@ const Clientes = () => {
     <div className="container">
       <h1 className="title is-2 has-text-centered">Clientes</h1>
 
-      {/* Botón para abrir el modal */}
-      <button className="button is-primary" onClick={openModal}>
-        Agregar Cliente
-      </button>
-
-      {/* Modal para agregar un nuevo cliente */}
-      {isModalOpen && (
-        <div className="modal is-active">
-          <div className="modal-background" onClick={closeModal}></div>
-          <div className="modal-card">
-            <header className="modal-card-head">
-              <p className="modal-card-title">Agregar Cliente</p>
-              <button className="delete" aria-label="close" onClick={closeModal}></button>
-            </header>
-            <section className="modal-card-body">
-              <form onSubmit={handleSubmitNewCliente}>
-                <div className="field">
-                  <label className="label">Nombre</label>
-                  <div className="control">
-                    <input
-                      type="text"
-                      name="nombre"
-                      value={newCliente.nombre}
-                      onChange={handleInputChange}
-                      className="input"
-                      placeholder="Nombre del cliente"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="field">
-                  <label className="label">Correo</label>
-                  <div className="control">
-                    <input
-                      type="email"
-                      name="correo"
-                      value={newCliente.correo}
-                      onChange={handleInputChange}
-                      className="input"
-                      placeholder="Correo del cliente"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="field">
-                  <label className="label">Teléfono</label>
-                  <div className="control">
-                    <input
-                      type="text"
-                      name="telefono"
-                      value={newCliente.telefono}
-                      onChange={handleInputChange}
-                      className="input"
-                      placeholder="Teléfono del cliente"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="field">
-                  <label className="label">Tarifa Mensual</label>
-                  <div className="control">
-                    <input
-                      type="number"
-                      name="tarifa_mensual"
-                      value={newCliente.tarifa_mensual}
-                      onChange={handleInputChange}
-                      className="input"
-                      placeholder="Tarifa mensual"
-                      required
-                    />
-                  </div>
-                </div>
-
-                {/* Selección de Actividades */}
-                <div className="field">
-                  <label className="label">Actividades</label>
-                  <div className="control">
-                    <select
-                      name="actividades"
-                      value={newCliente.actividades}
-                      onChange={handleSelectChange}
-                      className="input"
-                      multiple
-                      required
-                    >
-                      {actividades.map(actividad => (
-                        <option key={actividad.id} value={actividad.id}>
-                          {actividad.nombre}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                {/* Selección de Profesores */}
-                <div className="field">
-                  <label className="label">Profesores</label>
-                  <div className="control">
-                    <select
-                      name="profesores"
-                      value={newCliente.profesores}
-                      onChange={handleSelectChange}
-                      className="input"
-                      multiple
-                      required
-                    >
-                      {profesores.map(profesor => (
-                        <option key={profesor.id} value={profesor.id}>
-                          {profesor.nombre}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="control">
-                  <button type="submit" className="button is-link is-fullwidth">
-                    Agregar Cliente
-                  </button>
-                </div>
-              </form>
-            </section>
+      {/* Formulario para agregar un nuevo cliente */}
+      <section className="section">
+        <h2 className="subtitle">Agregar Cliente</h2>
+        <form onSubmit={handleSubmitNewCliente} className="box">
+          <div className="field">
+            <label className="label">Nombre</label>
+            <div className="control">
+              <input
+                type="text"
+                name="nombre"
+                value={newCliente.nombre}
+                onChange={handleInputChange}
+                className="input"
+                placeholder="Nombre del cliente"
+                required
+              />
+            </div>
           </div>
-        </div>
+
+          <div className="field">
+            <label className="label">Correo</label>
+            <div className="control">
+              <input
+                type="email"
+                name="correo"
+                value={newCliente.correo}
+                onChange={handleInputChange}
+                className="input"
+                placeholder="Correo del cliente"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="field">
+            <label className="label">Teléfono</label>
+            <div className="control">
+              <input
+                type="text"
+                name="telefono"
+                value={newCliente.telefono}
+                onChange={handleInputChange}
+                className="input"
+                placeholder="Teléfono del cliente"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="field">
+            <label className="label">Tarifa Mensual</label>
+            <div className="control">
+              <input
+                type="number"
+                name="tarifa_mensual"
+                value={newCliente.tarifa_mensual}
+                onChange={handleInputChange}
+                className="input"
+                placeholder="Tarifa mensual"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Selección de Actividades */}
+          <div className="field">
+            <label className="label">Actividades</label>
+            <div className="control">
+              <select
+                name="actividades"
+                value={newCliente.actividades}
+                onChange={handleSelectChange}
+                className="input"
+                multiple
+                required
+              >
+                {actividades.map(actividad => (
+                  <option key={actividad.id} value={actividad.id}>
+                    {actividad.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Selección de Profesores */}
+          <div className="field">
+            <label className="label">Profesores</label>
+            <div className="control">
+              <select
+                name="profesores"
+                value={newCliente.profesores}
+                onChange={handleSelectChange}
+                className="input"
+                multiple
+                required
+              >
+                {profesores.map(profesor => (
+                  <option key={profesor.id} value={profesor.id}>
+                    {profesor.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="control">
+            <button type="submit" className="button is-link is-fullwidth">
+              Agregar Cliente
+            </button>
+          </div>
+        </form>
+      </section>
+
+      {/* Formulario para actualizar un cliente */}
+      {editCliente && (
+        <section className="section">
+          <h2 className="subtitle">Actualizar Cliente</h2>
+          <form onSubmit={handleUpdateCliente} className="box">
+            {/* Campos similares al formulario de agregar */}
+            <div className="control">
+              <button type="submit" className="button is-info is-fullwidth">
+                Actualizar Cliente
+              </button>
+            </div>
+          </form>
+        </section>
       )}
 
       {/* Lista de clientes */}
