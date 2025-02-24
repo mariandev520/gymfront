@@ -183,7 +183,7 @@ const Clientes = () => {
                 required
               >
                 {actividades.map(actividad => (
-                  <option key={actividad.id} value={actividad.id}>{actividad.nombre}</option>
+                  <option key={actividad.id} value={actividad.id}>{actividad.id}</option>
                 ))}
               </select>
             </div>

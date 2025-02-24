@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
@@ -17,7 +17,8 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar />
+      {/* Mostrar Navbar solo si el usuario está autenticado */}
+      {user && <Navbar />}
       
       <div className="columns">
         {/* Mostrar Sidebar solo si el usuario es un admin */}
@@ -30,18 +31,21 @@ const App = () => {
         {/* Contenido Principal */}
         <div className={`column ${user?.role === 'admin' ? '' : ''}`}>
           <Routes>
+            {/* Redirigir la ruta raíz ("/") al Login */}
+            <Route path="/" element={user ? <Navigate to="/mis-datos" /> : <Login setUser={setUser} />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
-            <Route path="/mis-datos" element={user ? <MisDatos /> : <Login setUser={setUser} />} />
-            <Route path="/administracion" element={user?.role === 'admin' ? <Administracion /> : <Login setUser={setUser} />} />
-            <Route path="/administracion/clientes" element={user?.role === 'admin' ? <Clientes /> : <Login setUser={setUser} />} />
-            <Route path="/administracion/actividades" element={user?.role === 'admin' ? <Actividades /> : <Login setUser={setUser} />} />
-            <Route path="/administracion/profes" element={user?.role === 'admin' ? <Profes /> : <Login setUser={setUser} />} />
-            <Route path="/administracion/pagos" element={user?.role === 'admin' ? <Pagos /> : <Login setUser={setUser} />} />
+            <Route path="/mis-datos" element={user ? <MisDatos /> : <Navigate to="/login" />} />
+            <Route path="/administracion" element={user?.role === 'admin' ? <Administracion /> : <Navigate to="/login" />} />
+            <Route path="/administracion/clientes" element={user?.role === 'admin' ? <Clientes /> : <Navigate to="/login" />} />
+            <Route path="/administracion/actividades" element={user?.role === 'admin' ? <Actividades /> : <Navigate to="/login" />} />
+            <Route path="/administracion/profes" element={user?.role === 'admin' ? <Profes /> : <Navigate to="/login" />} />
+            <Route path="/administracion/pagos" element={user?.role === 'admin' ? <Pagos /> : <Navigate to="/login" />} />
           </Routes>
         </div>
       </div>
 
-      <Footer />
+      {/* Mostrar Footer solo si el usuario está autenticado */}
+      {user && <Footer />}
     </Router>
   );
 };
