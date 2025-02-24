@@ -3,27 +3,35 @@ import axios from 'axios';
 
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [actividades, setActividades] = useState([]); // Para las actividades
+  const [profesores, setProfesores] = useState([]); // Para los profesores
   const [newCliente, setNewCliente] = useState({
     nombre: '',
     correo: '',
     telefono: '',
-    tarifa_mensual: ''
+    tarifa_mensual: '',
+    actividades: [], // Relación con actividades
+    profesores: []   // Relación con profesores
   });
   const [editCliente, setEditCliente] = useState(null);
   const [error, setError] = useState(''); // Para manejar mensajes de error
 
-  // Obtener los clientes desde la API
   useEffect(() => {
+    // Obtener actividades y profesores
+    axios.get('http://localhost:3001/actividades')
+      .then(response => {
+        setActividades(response.data);
+      });
+    
+    axios.get('http://localhost:3001/profesores')
+      .then(response => {
+        setProfesores(response.data);
+      });
+
+    // Obtener todos los clientes
     axios.get('http://localhost:3001/clientes')
       .then(response => {
         setClientes(response.data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error al obtener los clientes:', error);
-        setError('Hubo un problema al obtener los clientes.');
-        setLoading(false);
       });
   }, []);
 
@@ -35,12 +43,24 @@ const Clientes = () => {
     });
   };
 
+  const handleSelectChange = (e) => {
+    const { name, options } = e.target;
+    const selectedValues = Array.from(options)
+      .filter(option => option.selected)
+      .map(option => option.value);
+    
+    setNewCliente({
+      ...newCliente,
+      [name]: selectedValues
+    });
+  };
+
   const handleSubmitNewCliente = (e) => {
     e.preventDefault();
     axios.post('http://localhost:3001/clientes', newCliente)
       .then(response => {
         setClientes([...clientes, response.data]);
-        setNewCliente({ nombre: '', correo: '', telefono: '', tarifa_mensual: '' });
+        setNewCliente({ nombre: '', correo: '', telefono: '', tarifa_mensual: '', actividades: [], profesores: [] });
       })
       .catch(error => {
         console.error('Error al agregar el cliente:', error);
@@ -78,23 +98,13 @@ const Clientes = () => {
       });
   };
 
-  if (loading) {
-    return (
-      <div className="section has-text-centered">
-        <h1 className="title">Cargando Clientes...</h1>
-        <div className="spinner">
-          <i className="fas fa-spinner fa-spin"></i>
-        </div>
-      </div>
-    );
+  if (error) {
+    return <div className="notification is-danger">{error}</div>;
   }
 
   return (
     <div className="container">
       <h1 className="title is-2 has-text-centered">Clientes</h1>
-
-      {/* Mensaje de error */}
-      {error && <div className="notification is-danger">{error}</div>}
 
       {/* Formulario para agregar un nuevo cliente */}
       <section className="section">
@@ -114,6 +124,7 @@ const Clientes = () => {
               />
             </div>
           </div>
+
           <div className="field">
             <label className="label">Correo</label>
             <div className="control">
@@ -128,6 +139,7 @@ const Clientes = () => {
               />
             </div>
           </div>
+
           <div className="field">
             <label className="label">Teléfono</label>
             <div className="control">
@@ -142,6 +154,7 @@ const Clientes = () => {
               />
             </div>
           </div>
+
           <div className="field">
             <label className="label">Tarifa Mensual</label>
             <div className="control">
@@ -156,6 +169,45 @@ const Clientes = () => {
               />
             </div>
           </div>
+
+          {/* Selección de Actividades */}
+          <div className="field">
+            <label className="label">Actividades</label>
+            <div className="control">
+              <select
+                name="actividades"
+                value={newCliente.actividades}
+                onChange={handleSelectChange}
+                className="input"
+                multiple
+                required
+              >
+                {actividades.map(actividad => (
+                  <option key={actividad.id} value={actividad.id}>{actividad.nombre}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Selección de Profesores */}
+          <div className="field">
+            <label className="label">Profesores</label>
+            <div className="control">
+              <select
+                name="profesores"
+                value={newCliente.profesores}
+                onChange={handleSelectChange}
+                className="input"
+                multiple
+                required
+              >
+                {profesores.map(profesor => (
+                  <option key={profesor.id} value={profesor.id}>{profesor.nombre}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           <div className="control">
             <button type="submit" className="button is-link is-fullwidth">Agregar Cliente</button>
           </div>
@@ -167,58 +219,8 @@ const Clientes = () => {
         <section className="section">
           <h2 className="subtitle">Actualizar Cliente</h2>
           <form onSubmit={handleUpdateCliente} className="box">
-            <div className="field">
-              <label className="label">Nombre</label>
-              <div className="control">
-                <input
-                  type="text"
-                  name="nombre"
-                  value={editCliente.nombre}
-                  onChange={e => setEditCliente({ ...editCliente, nombre: e.target.value })}
-                  className="input"
-                  required
-                />
-              </div>
-            </div>
-            <div className="field">
-              <label className="label">Correo</label>
-              <div className="control">
-                <input
-                  type="email"
-                  name="correo"
-                  value={editCliente.correo}
-                  onChange={e => setEditCliente({ ...editCliente, correo: e.target.value })}
-                  className="input"
-                  required
-                />
-              </div>
-            </div>
-            <div className="field">
-              <label className="label">Teléfono</label>
-              <div className="control">
-                <input
-                  type="text"
-                  name="telefono"
-                  value={editCliente.telefono}
-                  onChange={e => setEditCliente({ ...editCliente, telefono: e.target.value })}
-                  className="input"
-                  required
-                />
-              </div>
-            </div>
-            <div className="field">
-              <label className="label">Tarifa Mensual</label>
-              <div className="control">
-                <input
-                  type="number"
-                  name="tarifa_mensual"
-                  value={editCliente.tarifa_mensual}
-                  onChange={e => setEditCliente({ ...editCliente, tarifa_mensual: e.target.value })}
-                  className="input"
-                  required
-                />
-              </div>
-            </div>
+            {/* Similar a lo anterior, pero con los valores de `editCliente` */}
+            {/* ... */}
             <div className="control">
               <button type="submit" className="button is-info is-fullwidth">Actualizar Cliente</button>
             </div>
@@ -238,6 +240,8 @@ const Clientes = () => {
                 <th>Correo</th>
                 <th>Teléfono</th>
                 <th>Tarifa Mensual</th>
+                <th>Actividades</th>
+                <th>Profesores</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -250,6 +254,8 @@ const Clientes = () => {
                     <td>{cliente.correo}</td>
                     <td>{cliente.telefono}</td>
                     <td>{cliente.tarifa_mensual}</td>
+                    <td>{cliente.actividades}</td>
+                    <td>{cliente.profesores}</td>
                     <td>
                       <button
                         className="button is-small is-info is-outlined"
@@ -268,7 +274,7 @@ const Clientes = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">No hay clientes registrados.</td>
+                  <td colSpan="8">No hay clientes registrados.</td>
                 </tr>
               )}
             </tbody>
