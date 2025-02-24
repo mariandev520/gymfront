@@ -1,19 +1,40 @@
 // controllers/clientesController.js
 const connection = require('../db');
 
-// Crear un cliente
+
 exports.createCliente = (req, res) => {
-  const { nombre, correo, telefono, tarifa_mensual } = req.body;
-  const query = 'INSERT INTO clientes (nombre, correo, telefono, tarifa_mensual) VALUES (?, ?, ?, ?)';
-  connection.query(query, [nombre, correo, telefono, tarifa_mensual], (err, result) => {
-    if (err) {
-      res.status(500).json({ message: 'Error al agregar cliente', error: err });
-      console.error('Error al insertar cliente:', err);
-    } else {
-      res.status(201).json({ message: 'Cliente agregado con éxito', id: result.insertId });
-    }
-  });
+    const { nombre, correo, telefono, tarifa_mensual, actividades } = req.body; // Ahora recibe un array de actividades
+
+    // Insertar el cliente en la base de datos
+    const queryCliente = 'INSERT INTO clientes (nombre, correo, telefono, tarifa_mensual) VALUES (?, ?, ?, ?)';
+
+    connection.query(queryCliente, [nombre, correo, telefono, tarifa_mensual], (err, result) => {
+        if (err) {
+            console.error('Error al insertar cliente:', err);
+            return res.status(500).json({ message: 'Error al agregar cliente', error: err });
+        }
+
+        const clienteId = result.insertId; // Obtener el ID del cliente insertado
+
+        // Insertar las actividades asociadas en la tabla cliente_actividad
+        if (actividades && actividades.length > 0) {
+            const queryActividades = 'INSERT INTO cliente_actividad (cliente_id, actividad_id) VALUES ?';
+            const values = actividades.map(actividadId => [clienteId, actividadId]);
+
+            connection.query(queryActividades, [values], (err) => {
+                if (err) {
+                    console.error('Error al asociar actividades al cliente:', err);
+                    return res.status(500).json({ message: 'Error al asociar actividades', error: err });
+                }
+
+                res.status(201).json({ message: 'Cliente y actividades agregados con éxito', id: clienteId });
+            });
+        } else {
+            res.status(201).json({ message: 'Cliente agregado sin actividades', id: clienteId });
+        }
+    });
 };
+ 
 
 // Obtener todos los clientes
 exports.getClientes = (req, res) => {
