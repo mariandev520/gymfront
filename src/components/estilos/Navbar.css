@@ -1,0 +1,84 @@
+/* Navbar.css */
+.navbar {
+    background-color: #fff; /* Color de fondo blanco */
+    padding: 1rem 0; /* Ajusta el padding vertical */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    position: relative; /* Para que el sidebar no se superponga */
+    z-index: 1001; /* Asegura que el navbar esté por encima del sidebar */
+  }
+  
+  .navbar-container {
+    display: flex;
+    justify-content: space-between; /* Distribuye los elementos */
+    align-items: center; /* Alinea verticalmente */
+    max-width: 1200px; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centra el contenedor */
+    padding: 0 20px; /* Padding horizontal */
+    width: 100%;
+  }
+  
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-item {
+    color: #333; /* Color de texto oscuro */
+    font-weight: 500; /* Peso de fuente semi-negrita */
+    padding: 0.5rem 1rem; /* Ajusta el padding de los items */
+    transition: color 0.3s ease; /* Transición suave en el color */
+    text-decoration: none; /* Quita el subrayado de los enlaces */
+  }
+  
+  .navbar-item:hover {
+    color: #007bff; /* Color de texto azul al pasar el mouse */
+  }
+  
+  .navbar-burger {
+    display: none; /* Oculto por defecto en pantallas grandes */
+    cursor: pointer;
+    padding: 0.5rem;
+    border: none;
+    background: none;
+  }
+  
+  .navbar-burger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    margin: 5px 0;
+  }
+  
+  .navbar-menu {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Media queries para hacerlo responsive */
+  @media (max-width: 768px) {
+    .navbar-menu {
+      display: none; /* Oculta el menú en pantallas pequeñas */
+      flex-direction: column; /* Menu vertical */
+      position: absolute;
+      top: 100%; /* debajo del navbar */
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  
+    .navbar-burger {
+      display: block; /* Muestra el botón hamburguesa */
+    }
+  
+    .navbar-menu.is-active {
+      display: flex; /* Muestra el menú cuando el botón hamburguesa está activo */
+    }
+  
+    .navbar-item {
+      padding: 1rem; /* Aumenta el padding en pantallas pequeñas */
+      display: block; /* Ocupa todo el ancho */
+      text-align: center; /* Centra el texto */
+    }
+  }

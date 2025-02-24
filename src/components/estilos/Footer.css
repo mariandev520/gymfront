@@ -1,0 +1,53 @@
+/* Footer.css */
+.footer {
+    background-color: #e6e6e6; /* Color de fondo oscuro */
+    padding: 2rem 0; /* Ajusta el padding vertical */
+    color: #302aa1; /* Color de texto blanco */
+    position: relative; /* Para que no se superponga con otros elementos */
+    bottom: 0; /* Para que se quede abajo */
+    width: 100%; /* Ocupe todo el ancho */
+  }
+  
+  .footer-container {
+    max-width: 1200px; /* Ancho máximo del contenedor */
+    margin: 0 auto; /* Centra el contenedor */
+    padding: 0 20px; /* Padding horizontal */
+    display: flex; /* Para alinear los elementos horizontalmente */
+    justify-content: space-between; /* Para separar el texto y los enlaces */
+    align-items: center; /* Para alinear verticalmente */
+    flex-direction: column; /* Por defecto en columnas */
+  }
+  
+  .footer-content {
+    text-align: center;
+    margin-bottom: 1rem; /* Espacio entre el texto y los enlaces */
+  }
+  
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .footer-link {
+    color: #171a78; /* Color de enlace más claro */
+    text-decoration: none; /* Quita el subrayado */
+    margin: 0 1rem; /* Espacio entre enlaces */
+    transition: color 0.3s ease; /* Transición suave en el color */
+  }
+  
+  .footer-link:hover {
+    color: #fff; /* Color de enlace blanco al pasar el mouse */
+  }
+  
+  /* Media queries para hacerlo responsive */
+  @media (min-width: 768px) {
+    .footer-container {
+        flex-direction: row; /* En pantallas medianas y grandes, los elementos se muestran en fila */
+        justify-content: space-between;
+    }
+    .footer-content {
+        margin-bottom: 0; /* Quita el margen inferior en pantallas medianas y grandes */
+        text-align: left; /* Alinea el texto a la izquierda */
+    }
+  }

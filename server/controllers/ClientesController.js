@@ -8,6 +8,7 @@ exports.createCliente = (req, res) => {
   connection.query(query, [nombre, correo, telefono, tarifa_mensual], (err, result) => {
     if (err) {
       res.status(500).json({ message: 'Error al agregar cliente', error: err });
+      console.error('Error al insertar cliente:', err);
     } else {
       res.status(201).json({ message: 'Cliente agregado con éxito', id: result.insertId });
     }

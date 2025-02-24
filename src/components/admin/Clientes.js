@@ -189,24 +189,7 @@ const Clientes = () => {
             </div>
           </div>
 
-          {/* Selección de Profesores */}
-          <div className="field">
-            <label className="label">Profesores</label>
-            <div className="control">
-              <select
-                name="profesores"
-                value={newCliente.profesores}
-                onChange={handleSelectChange}
-                className="input"
-                multiple
-                required
-              >
-                {profesores.map(profesor => (
-                  <option key={profesor.id} value={profesor.id}>{profesor.nombre}</option>
-                ))}
-              </select>
-            </div>
-          </div>
+        
 
           <div className="control">
             <button type="submit" className="button is-link is-fullwidth">Agregar Cliente</button>
