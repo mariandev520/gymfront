@@ -71,57 +71,96 @@ const Actividades = () => {
   };
 
   if (loading) {
-    return <div>Cargando actividades...</div>;
+    return <div className="has-text-centered">Cargando actividades...</div>;
   }
 
   return (
-    <div>
-      <h1>Actividades</h1>
+    <div className="container">
+      <h1 className="title is-2 has-text-centered">Actividades</h1>
 
       {/* Mensaje de error */}
-      {error && <div style={{ color: 'red' }}>{error}</div>}
+      {error && <div className="notification is-danger">{error}</div>}
 
       {/* Formulario para agregar una nueva actividad */}
-      <h2>Agregar Actividad</h2>
-      <form onSubmit={handleSubmitNewActividad}>
-        <input
-          type="text"
-          name="nombre"
-          value={newActividad.nombre}
-          onChange={handleInputChange}
-          placeholder="Nombre de la actividad"
-          required
-        />
-        <button type="submit">Agregar Actividad</button>
-      </form>
+      <section className="section">
+        <h2 className="subtitle">Agregar Actividad</h2>
+        <form onSubmit={handleSubmitNewActividad} className="box">
+          <div className="field">
+            <label className="label">Nombre</label>
+            <div className="control">
+              <input
+                type="text"
+                name="nombre"
+                value={newActividad.nombre}
+                onChange={handleInputChange}
+                className="input"
+                placeholder="Nombre de la actividad"
+                required
+              />
+            </div>
+          </div>
+          <div className="control">
+            <button type="submit" className="button is-link is-fullwidth">Agregar Actividad</button>
+          </div>
+        </form>
+      </section>
 
       {/* Formulario para actualizar una actividad */}
       {editActividad && (
-        <div>
-          <h2>Actualizar Actividad</h2>
-          <form onSubmit={handleUpdateActividad}>
-            <input
-              type="text"
-              name="nombre"
-              value={editActividad.nombre}
-              onChange={e => setEditActividad({ ...editActividad, nombre: e.target.value })}
-              required
-            />
-            <button type="submit">Actualizar Actividad</button>
+        <section className="section">
+          <h2 className="subtitle">Actualizar Actividad</h2>
+          <form onSubmit={handleUpdateActividad} className="box">
+            <div className="field">
+              <label className="label">Nombre</label>
+              <div className="control">
+                <input
+                  type="text"
+                  name="nombre"
+                  value={editActividad.nombre}
+                  onChange={e => setEditActividad({ ...editActividad, nombre: e.target.value })}
+                  className="input"
+                  required
+                />
+              </div>
+            </div>
+            <div className="control">
+              <button type="submit" className="button is-info is-fullwidth">Actualizar Actividad</button>
+            </div>
           </form>
-        </div>
+        </section>
       )}
 
       {/* Lista de actividades */}
-      <ul>
-        {actividades.map(actividad => (
-          <li  style={{ color: 'red' }} key={actividad.id}>
-            <span>{actividad.nombre}</span>
-            <button onClick={() => handleEditActividad(actividad)}>Editar</button>
-            <button onClick={() => handleDeleteActividad(actividad.id)}>Eliminar</button>
-          </li>
-        ))}
-      </ul>
+      <section className="section">
+        <h2 className="subtitle">Lista de Actividades</h2>
+        <div className="box">
+          <ul>
+            {actividades.map(actividad => (
+              <li key={actividad.id} className="box">
+                <div className="columns is-mobile is-vcentered">
+                  <div className="column">
+                    <span>{actividad.nombre}</span>
+                  </div>
+                  <div className="column is-narrow">
+                    <button
+                      className="button is-small is-info is-outlined"
+                      onClick={() => handleEditActividad(actividad)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="button is-small is-danger is-outlined ml-2"
+                      onClick={() => handleDeleteActividad(actividad.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
     </div>
   );
 };

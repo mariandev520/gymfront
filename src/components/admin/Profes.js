@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const Profes= () => {
+const Profes = () => {
   const [profesores, setProfesores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newProfesor, setNewProfesor] = useState({ nombre: '' });
   const [editProfesor, setEditProfesor] = useState(null);
+  const [error, setError] = useState(''); // Para manejar errores
 
   useEffect(() => {
     axios.get('http://localhost:3001/profesores')
@@ -15,6 +16,7 @@ const Profes= () => {
       })
       .catch(error => {
         console.error('Error al obtener los profesores:', error);
+        setError('Hubo un problema al obtener los profesores.');
         setLoading(false);
       });
   }, []);
@@ -33,6 +35,7 @@ const Profes= () => {
       })
       .catch(error => {
         console.error('Error al agregar el profesor:', error);
+        setError('Hubo un problema al agregar el profesor.');
       });
   };
 
@@ -43,6 +46,7 @@ const Profes= () => {
       })
       .catch(error => {
         console.error('Error al eliminar el profesor:', error);
+        setError('Hubo un problema al eliminar el profesor.');
       });
   };
 
@@ -61,6 +65,7 @@ const Profes= () => {
       })
       .catch(error => {
         console.error('Error al actualizar el profesor:', error);
+        setError('Hubo un problema al actualizar el profesor.');
       });
   };
 
@@ -69,61 +74,92 @@ const Profes= () => {
   }
 
   return (
-    <div>
-      <h1>Profesores</h1>
+    <div className="container">
+      <h1 className="title is-2 has-text-centered">Profesores</h1>
+
+      {/* Mensaje de error */}
+      {error && <div className="notification is-danger">{error}</div>}
 
       {/* Formulario para agregar un nuevo profesor */}
-      <h2>Agregar Profesor</h2>
-      <form onSubmit={handleSubmitNewProfesor}>
-        <input
-          type="text"
-          name="nombre"
-          value={newProfesor.nombre}
-          onChange={handleInputChange}
-          placeholder="Nombre del profesor"
-          required
-        />
-        <button type="submit">Agregar Profesor</button>
-      </form>
+      <section className="section">
+        <h2 className="subtitle">Agregar Profesor</h2>
+        <form onSubmit={handleSubmitNewProfesor} className="box">
+          <div className="field">
+            <label className="label">Nombre</label>
+            <div className="control">
+              <input
+                type="text"
+                name="nombre"
+                value={newProfesor.nombre}
+                onChange={handleInputChange}
+                className="input"
+                placeholder="Nombre del profesor"
+                required
+              />
+            </div>
+          </div>
+          <div className="control">
+            <button type="submit" className="button is-link is-fullwidth">Agregar Profesor</button>
+          </div>
+        </form>
+      </section>
 
       {/* Formulario para actualizar un profesor */}
       {editProfesor && (
-        <div>
-          <h2>Actualizar Profesor</h2>
-          <form onSubmit={handleUpdateProfesor}>
-            <input
-              type="text"
-              name="nombre"
-              value={editProfesor.nombre}
-              onChange={e => setEditProfesor({ ...editProfesor, nombre: e.target.value })}
-              required
-            />
-            <button type="submit">Actualizar Profesor</button>
+        <section className="section">
+          <h2 className="subtitle">Actualizar Profesor</h2>
+          <form onSubmit={handleUpdateProfesor} className="box">
+            <div className="field">
+              <label className="label">Nombre</label>
+              <div className="control">
+                <input
+                  type="text"
+                  name="nombre"
+                  value={editProfesor.nombre}
+                  onChange={e => setEditProfesor({ ...editProfesor, nombre: e.target.value })}
+                  className="input"
+                  required
+                />
+              </div>
+            </div>
+            <div className="control">
+              <button type="submit" className="button is-info is-fullwidth">Actualizar Profesor</button>
+            </div>
           </form>
-        </div>
+        </section>
       )}
 
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {profesores.map(profesor => (
-            <tr key={profesor.id}>
-              <td>{profesor.id}</td>
-              <td>{profesor.nombre}</td>
-              <td>
-                <button onClick={() => handleEditProfesor(profesor)}>Editar</button>
-                <button onClick={() => handleDeleteProfesor(profesor.id)}>Eliminar</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Lista de profesores */}
+      <section className="section">
+        <h2 className="subtitle">Lista de Profesores</h2>
+        <div className="box">
+          <ul>
+            {profesores.map(profesor => (
+              <li key={profesor.id} className="box">
+                <div className="columns is-mobile is-vcentered">
+                  <div className="column">
+                    <span>{profesor.nombre}</span>
+                  </div>
+                  <div className="column is-narrow">
+                    <button
+                      className="button is-small is-info is-outlined"
+                      onClick={() => handleEditProfesor(profesor)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      className="button is-small is-danger is-outlined ml-2"
+                      onClick={() => handleDeleteProfesor(profesor.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
     </div>
   );
 };
