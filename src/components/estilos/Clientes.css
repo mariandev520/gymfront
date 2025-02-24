@@ -1,0 +1,95 @@
+/* Estilos generales */
+.container {
+    max-width: 1200px;
+    margin: 0; /* Eliminamos el margen automático para centrar */
+    padding: 20px;
+  }
+  
+  /* Centrar el contenido */
+  .section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alineamos a la izquierda */
+    justify-content: center;
+    text-align: left; /* Texto alineado a la izquierda */
+  }
+  
+  /* Estilos para el formulario */
+  .box {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilos para la tabla */
+  .table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+  
+  .table th:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* Estilos para listas */
+  ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+  
+  ul li {
+    list-style-type: disc;
+  }
+  
+  /* Estilos para botones */
+  .button {
+    margin: 5px;
+  }
+  
+  /* Estilos responsive */
+  @media (max-width: 768px) {
+    .box {
+      width: 90%;
+      padding: 15px;
+    }
+  
+    .table th, .table td {
+      padding: 8px;
+    }
+  
+    .button {
+      width: 100%;
+      margin: 5px 0;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .box {
+      width: 100%;
+      padding: 10px;
+    }
+  
+    .table th, .table td {
+      padding: 6px;
+    }
+  
+    .button {
+      font-size: 14px;
+    }
+  }

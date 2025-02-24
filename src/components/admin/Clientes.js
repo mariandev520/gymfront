@@ -1,66 +1,78 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import '../estilos/Clientes.css'; // Importa el archivo CSS
 
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
-  const [actividades, setActividades] = useState([]); // Para las actividades
-  const [profesores, setProfesores] = useState([]); // Para los profesores
+  const [actividades, setActividades] = useState([]);
+  const [profesores, setProfesores] = useState([]);
   const [newCliente, setNewCliente] = useState({
     nombre: '',
     correo: '',
     telefono: '',
     tarifa_mensual: '',
-    actividades: [], // Relación con actividades
-    profesores: []   // Relación con profesores
+    actividades: [],
+    profesores: [],
   });
   const [editCliente, setEditCliente] = useState(null);
-  const [error, setError] = useState(''); // Para manejar mensajes de error
+  const [error, setError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
 
+  // Obtener datos iniciales
   useEffect(() => {
-    // Obtener actividades y profesores
     axios.get('http://localhost:3001/actividades')
-      .then(response => {
-        setActividades(response.data);
-      });
-    
-    axios.get('http://localhost:3001/profesores')
-      .then(response => {
-        setProfesores(response.data);
-      });
+      .then(response => setActividades(response.data))
+      .catch(error => console.error('Error fetching actividades:', error));
 
-    // Obtener todos los clientes
+    axios.get('http://localhost:3001/profesores')
+      .then(response => setProfesores(response.data))
+      .catch(error => console.error('Error fetching profesores:', error));
+
     axios.get('http://localhost:3001/clientes')
-      .then(response => {
-        setClientes(response.data);
-      });
+      .then(response => setClientes(response.data))
+      .catch(error => console.error('Error fetching clientes:', error));
   }, []);
 
+  // Manejar cambios en los inputs
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewCliente({
-      ...newCliente,
-      [name]: value
-    });
+    setNewCliente({ ...newCliente, [name]: value });
   };
 
+  // Manejar cambios en los selects (actividades y profesores)
   const handleSelectChange = (e) => {
     const { name, options } = e.target;
     const selectedValues = Array.from(options)
       .filter(option => option.selected)
       .map(option => option.value);
-    
-    setNewCliente({
-      ...newCliente,
-      [name]: selectedValues
-    });
+    setNewCliente({ ...newCliente, [name]: selectedValues });
   };
 
+  // Abrir el modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Cerrar el modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // Agregar un nuevo cliente
   const handleSubmitNewCliente = (e) => {
     e.preventDefault();
     axios.post('http://localhost:3001/clientes', newCliente)
       .then(response => {
         setClientes([...clientes, response.data]);
-        setNewCliente({ nombre: '', correo: '', telefono: '', tarifa_mensual: '', actividades: [], profesores: [] });
+        setNewCliente({
+          nombre: '',
+          correo: '',
+          telefono: '',
+          tarifa_mensual: '',
+          actividades: [],
+          profesores: [],
+        });
+        closeModal(); // Cerrar el modal después de agregar
       })
       .catch(error => {
         console.error('Error al agregar el cliente:', error);
@@ -68,9 +80,10 @@ const Clientes = () => {
       });
   };
 
+  // Eliminar un cliente
   const handleDeleteCliente = (id) => {
     axios.delete(`http://localhost:3001/clientes/${id}`)
-      .then(response => {
+      .then(() => {
         setClientes(clientes.filter(cliente => cliente.id !== id));
       })
       .catch(error => {
@@ -78,12 +91,13 @@ const Clientes = () => {
         setError('Hubo un problema al eliminar el cliente.');
       });
   };
-  
 
+  // Editar un cliente
   const handleEditCliente = (cliente) => {
     setEditCliente(cliente);
   };
 
+  // Actualizar un cliente
   const handleUpdateCliente = (e) => {
     e.preventDefault();
     axios.put(`http://localhost:3001/clientes/${editCliente.id}`, editCliente)
@@ -107,109 +121,133 @@ const Clientes = () => {
     <div className="container">
       <h1 className="title is-2 has-text-centered">Clientes</h1>
 
-      {/* Formulario para agregar un nuevo cliente */}
-      <section className="section">
-        <h2 className="subtitle">Agregar Cliente</h2>
-        <form onSubmit={handleSubmitNewCliente} className="box">
-          <div className="field">
-            <label className="label">Nombre</label>
-            <div className="control">
-              <input
-                type="text"
-                name="nombre"
-                value={newCliente.nombre}
-                onChange={handleInputChange}
-                className="input"
-                placeholder="Nombre del cliente"
-                required
-              />
-            </div>
+      {/* Botón para abrir el modal */}
+      <button className="button is-primary" onClick={openModal}>
+        Agregar Cliente
+      </button>
+
+      {/* Modal para agregar un nuevo cliente */}
+      {isModalOpen && (
+        <div className="modal is-active">
+          <div className="modal-background" onClick={closeModal}></div>
+          <div className="modal-card">
+            <header className="modal-card-head">
+              <p className="modal-card-title">Agregar Cliente</p>
+              <button className="delete" aria-label="close" onClick={closeModal}></button>
+            </header>
+            <section className="modal-card-body">
+              <form onSubmit={handleSubmitNewCliente}>
+                <div className="field">
+                  <label className="label">Nombre</label>
+                  <div className="control">
+                    <input
+                      type="text"
+                      name="nombre"
+                      value={newCliente.nombre}
+                      onChange={handleInputChange}
+                      className="input"
+                      placeholder="Nombre del cliente"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="field">
+                  <label className="label">Correo</label>
+                  <div className="control">
+                    <input
+                      type="email"
+                      name="correo"
+                      value={newCliente.correo}
+                      onChange={handleInputChange}
+                      className="input"
+                      placeholder="Correo del cliente"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="field">
+                  <label className="label">Teléfono</label>
+                  <div className="control">
+                    <input
+                      type="text"
+                      name="telefono"
+                      value={newCliente.telefono}
+                      onChange={handleInputChange}
+                      className="input"
+                      placeholder="Teléfono del cliente"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="field">
+                  <label className="label">Tarifa Mensual</label>
+                  <div className="control">
+                    <input
+                      type="number"
+                      name="tarifa_mensual"
+                      value={newCliente.tarifa_mensual}
+                      onChange={handleInputChange}
+                      className="input"
+                      placeholder="Tarifa mensual"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Selección de Actividades */}
+                <div className="field">
+                  <label className="label">Actividades</label>
+                  <div className="control">
+                    <select
+                      name="actividades"
+                      value={newCliente.actividades}
+                      onChange={handleSelectChange}
+                      className="input"
+                      multiple
+                      required
+                    >
+                      {actividades.map(actividad => (
+                        <option key={actividad.id} value={actividad.id}>
+                          {actividad.nombre}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Selección de Profesores */}
+                <div className="field">
+                  <label className="label">Profesores</label>
+                  <div className="control">
+                    <select
+                      name="profesores"
+                      value={newCliente.profesores}
+                      onChange={handleSelectChange}
+                      className="input"
+                      multiple
+                      required
+                    >
+                      {profesores.map(profesor => (
+                        <option key={profesor.id} value={profesor.id}>
+                          {profesor.nombre}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="control">
+                  <button type="submit" className="button is-link is-fullwidth">
+                    Agregar Cliente
+                  </button>
+                </div>
+              </form>
+            </section>
           </div>
-
-          <div className="field">
-            <label className="label">Correo</label>
-            <div className="control">
-              <input
-                type="email"
-                name="correo"
-                value={newCliente.correo}
-                onChange={handleInputChange}
-                className="input"
-                placeholder="Correo del cliente"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="field">
-            <label className="label">Teléfono</label>
-            <div className="control">
-              <input
-                type="text"
-                name="telefono"
-                value={newCliente.telefono}
-                onChange={handleInputChange}
-                className="input"
-                placeholder="Teléfono del cliente"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="field">
-            <label className="label">Tarifa Mensual</label>
-            <div className="control">
-              <input
-                type="number"
-                name="tarifa_mensual"
-                value={newCliente.tarifa_mensual}
-                onChange={handleInputChange}
-                className="input"
-                placeholder="Tarifa mensual"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Selección de Actividades */}
-          <div className="field">
-            <label className="label">Actividades</label>
-            <div className="control">
-              <select
-                name="actividades"
-                value={newCliente.actividades}
-                onChange={handleSelectChange}
-                className="input"
-                multiple
-                required
-              >
-                {actividades.map(actividad => (
-                  <option key={actividad.id} value={actividad.id}>{actividad.id}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-        
-
-          <div className="control">
-            <button type="submit" className="button is-link is-fullwidth">Agregar Cliente</button>
-          </div>
-        </form>
-      </section>
-
-      {/* Formulario para actualizar un cliente */}
-      {editCliente && (
-        <section className="section">
-          <h2 className="subtitle">Actualizar Cliente</h2>
-          <form onSubmit={handleUpdateCliente} className="box">
-            {/* Similar a lo anterior, pero con los valores de `editCliente` */}
-            {/* ... */}
-            <div className="control">
-              <button type="submit" className="button is-info is-fullwidth">Actualizar Cliente</button>
-            </div>
-          </form>
-        </section>
+        </div>
       )}
 
       {/* Lista de clientes */}
@@ -238,24 +276,12 @@ const Clientes = () => {
                     <td>{cliente.correo}</td>
                     <td>{cliente.telefono}</td>
                     <td>{cliente.tarifa_mensual}</td>
-
                     <td>
-  {cliente.actividades && cliente.actividades.length > 0 ? (
-    cliente.actividades.slice(0, 3).map((actividadId, index) => {
-      const actividad = actividades.find(act => act.id === actividadId);
-      return actividad ? (
-        <div key={index}>
-          {actividad.id} - {actividad.nombre}
-        </div>
-      ) : null;
-    })
-  ) : (
-    <span>Sin actividades</span>
-  )}
-</td>
-
- 
-                    <td>{cliente.profesores}</td>
+                      {cliente.actividades}
+                    </td>
+                    <td>
+                      {cliente.profesores}
+                    </td>
                     <td>
                       <button
                         className="button is-small is-info is-outlined"
