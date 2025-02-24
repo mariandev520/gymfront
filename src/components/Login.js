@@ -11,7 +11,7 @@ const Login = ({ setUser }) => {
   const handleLogin = () => {
     setError('');
 
-    if (username === 'admin' && password === 'admin123') {
+    if (username === 'admin' && password === 'admin') {
       setUser({ username, role: 'admin' });
       navigate('/administracion');
     } else if (username === 'user' && password === 'user123') {

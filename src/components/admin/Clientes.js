@@ -237,7 +237,10 @@ const Clientes = () => {
                     <td>{cliente.correo}</td>
                     <td>{cliente.telefono}</td>
                     <td>{cliente.tarifa_mensual}</td>
-                    <td>{cliente.actividades}</td>
+
+ <td>{ cliente.nombre.actividad}
+</td>
+
                     <td>{cliente.profesores}</td>
                     <td>
                       <button
