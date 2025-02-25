@@ -1,31 +1,99 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './estilos/Navbar.css'; // Importa el archivo CSS
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  return (
-    <nav className="navbar"> {/* Elimina la clase is-primary para personalizar */}
-      <div className="navbar-container"> {/* Nuevo contenedor para centrar y controlar ancho */}
-        <div className="navbar-brand">
-          <Link className="navbar-item" to="/"> {/* Enlace al inicio */}
-          GYM ADMIN
-          </Link>
-          {/* Botón para menú hamburguesa en responsive */}
-          <div className="navbar-burger" data-target="navbarBasicExample">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para controlar el menú hamburguesa
 
-        <div id="navbarBasicExample" className="navbar-menu">
-          <div className="navbar-end">
-            <Link className="navbar-item" to="/">Login</Link>
-            <Link className="navbar-item" to="/mis-datos">Mis Datos</Link>
-            <Link className="navbar-item" to="/administracion">Administración</Link>
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  return (
+    <nav className="bg-blue-600 shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          {/* Logo y marca */}
+          <div className="flex items-center">
+            <Link
+              to="/"
+              className="text-white text-xl font-bold hover:text-gray-200 transition duration-300"
+            >
+              GYM ADMIN
+            </Link>
+          </div>
+
+          {/* Menú hamburguesa (para móviles) */}
+          <div className="flex items-center md:hidden">
+            <button
+              onClick={toggleMenu}
+              className="text-white focus:outline-none"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                ></path>
+              </svg>
+            </button>
+          </div>
+
+          {/* Enlaces del navbar (para escritorio) */}
+          <div className="hidden md:flex items-center space-x-4">
+            <Link
+              to="/"
+              className="text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+            >
+              Login
+            </Link>
+            <Link
+              to="/mis-datos"
+              className="text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+            >
+              Mis Datos
+            </Link>
+            <Link
+              to="/administracion"
+              className="text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition duration-300"
+            >
+              Administración
+            </Link>
           </div>
         </div>
       </div>
+
+      {/* Menú desplegable (para móviles) */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-blue-600">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <Link
+              to="/"
+              className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition duration-300"
+            >
+              Login
+            </Link>
+            <Link
+              to="/mis-datos"
+              className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition duration-300"
+            >
+              Mis Datos
+            </Link>
+            <Link
+              to="/administracion"
+              className="block text-white hover:bg-blue-700 px-3 py-2 rounded-md text-base font-medium transition duration-300"
+            >
+              Administración
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

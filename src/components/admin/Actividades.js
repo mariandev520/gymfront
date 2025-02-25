@@ -6,7 +6,7 @@ const Actividades = () => {
   const [loading, setLoading] = useState(true);
   const [newActividad, setNewActividad] = useState({ nombre: '' });
   const [editActividad, setEditActividad] = useState(null);
-  const [error, setError] = useState(''); // Estado para almacenar mensajes de error
+  const [error, setError] = useState('');
 
   // Obtener las actividades desde la API
   useEffect(() => {
@@ -17,7 +17,7 @@ const Actividades = () => {
       })
       .catch(error => {
         console.error('Error al obtener las actividades:', error);
-        setError('Hubo un problema al obtener las actividades.'); // Mostrar mensaje de error
+        setError('Hubo un problema al obtener las actividades.');
         setLoading(false);
       });
   }, []);
@@ -36,7 +36,7 @@ const Actividades = () => {
       })
       .catch(error => {
         console.error('Error al agregar la actividad:', error);
-        setError('Hubo un problema al agregar la actividad.'); // Mostrar mensaje de error
+        setError('Hubo un problema al agregar la actividad.');
       });
   };
 
@@ -47,7 +47,7 @@ const Actividades = () => {
       })
       .catch(error => {
         console.error('Error al eliminar la actividad:', error);
-        setError('Hubo un problema al eliminar la actividad.'); // Mostrar mensaje de error
+        setError('Hubo un problema al eliminar la actividad.');
       });
   };
 
@@ -66,90 +66,94 @@ const Actividades = () => {
       })
       .catch(error => {
         console.error('Error al actualizar la actividad:', error);
-        setError('Hubo un problema al actualizar la actividad.'); // Mostrar mensaje de error
+        setError('Hubo un problema al actualizar la actividad.');
       });
   };
 
   if (loading) {
-    return <div className="has-text-centered">Cargando actividades...</div>;
+    return <div className="text-center py-8">Cargando actividades...</div>;
   }
 
   return (
-    <div className="container">
-      <h1 className="title is-2 has-text-centered">Actividades</h1>
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold text-center mb-8">Actividades</h1>
 
       {/* Mensaje de error */}
-      {error && <div className="notification is-danger">{error}</div>}
+      {error && (
+        <div className="bg-red-500 text-white p-4 rounded-lg mb-6">
+          {error}
+        </div>
+      )}
 
       {/* Formulario para agregar una nueva actividad */}
-      <section className="section">
-        <h2 className="subtitle">Agregar Actividad</h2>
-        <form onSubmit={handleSubmitNewActividad} className="box">
-          <div className="field">
-            <label className="label">Nombre</label>
-            <div className="control">
-              <input
-                type="text"
-                name="nombre"
-                value={newActividad.nombre}
-                onChange={handleInputChange}
-                className="input"
-                placeholder="Nombre de la actividad"
-                required
-              />
-            </div>
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4">Agregar Actividad</h2>
+        <form onSubmit={handleSubmitNewActividad} className="bg-white p-6 rounded-lg shadow-md">
+          <div className="mb-4">
+            <label className="block text-gray-700">Nombre</label>
+            <input
+              type="text"
+              name="nombre"
+              value={newActividad.nombre}
+              onChange={handleInputChange}
+              className="w-full p-2 border border-gray-300 rounded mt-1"
+              placeholder="Nombre de la actividad"
+              required
+            />
           </div>
-          <div className="control">
-            <button type="submit" className="button is-link is-fullwidth">Agregar Actividad</button>
-          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300"
+          >
+            Agregar Actividad
+          </button>
         </form>
       </section>
 
       {/* Formulario para actualizar una actividad */}
       {editActividad && (
-        <section className="section">
-          <h2 className="subtitle">Actualizar Actividad</h2>
-          <form onSubmit={handleUpdateActividad} className="box">
-            <div className="field">
-              <label className="label">Nombre</label>
-              <div className="control">
-                <input
-                  type="text"
-                  name="nombre"
-                  value={editActividad.nombre}
-                  onChange={e => setEditActividad({ ...editActividad, nombre: e.target.value })}
-                  className="input"
-                  required
-                />
-              </div>
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold mb-4">Actualizar Actividad</h2>
+          <form onSubmit={handleUpdateActividad} className="bg-white p-6 rounded-lg shadow-md">
+            <div className="mb-4">
+              <label className="block text-gray-700">Nombre</label>
+              <input
+                type="text"
+                name="nombre"
+                value={editActividad.nombre}
+                onChange={e => setEditActividad({ ...editActividad, nombre: e.target.value })}
+                className="w-full p-2 border border-gray-300 rounded mt-1"
+                required
+              />
             </div>
-            <div className="control">
-              <button type="submit" className="button is-info is-fullwidth">Actualizar Actividad</button>
-            </div>
+            <button
+              type="submit"
+              className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-300"
+            >
+              Actualizar Actividad
+            </button>
           </form>
         </section>
       )}
 
       {/* Lista de actividades */}
-      <section className="section">
-        <h2 className="subtitle">Lista de Actividades</h2>
-        <div className="box">
-          <ul>
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Lista de Actividades</h2>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <ul className="space-y-4">
             {actividades.map(actividad => (
-              <li key={actividad.id} className="box">
-                <div className="columns is-mobile is-vcentered">
-                  <div className="column">
-                    <span>{actividad.nombre}</span>
-                  </div>
-                  <div className="column is-narrow">
+              <li key={actividad.id} className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                <div className="flex justify-between items-center">
+                  <span className="text-lg">{actividad.nombre}</span>
+                  <div className="flex space-x-2">
                     <button
-                      className="button is-small is-info is-outlined"
+                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition duration-300"
                       onClick={() => handleEditActividad(actividad)}
                     >
                       Editar
                     </button>
                     <button
-                      className="button is-small is-danger is-outlined ml-2"
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300"
                       onClick={() => handleDeleteActividad(actividad.id)}
                     >
                       Eliminar

@@ -6,8 +6,9 @@ const Profes = () => {
   const [loading, setLoading] = useState(true);
   const [newProfesor, setNewProfesor] = useState({ nombre: '' });
   const [editProfesor, setEditProfesor] = useState(null);
-  const [error, setError] = useState(''); // Para manejar errores
+  const [error, setError] = useState('');
 
+  // Obtener los profesores desde la API
   useEffect(() => {
     axios.get('http://localhost:3001/profesores')
       .then(response => {
@@ -70,94 +71,108 @@ const Profes = () => {
   };
 
   if (loading) {
-    return <div>Cargando profesores...</div>;
+    return <div className="text-center py-8">Cargando profesores...</div>;
   }
 
   return (
-    <div className="container">
-      <h1 className="title is-2 has-text-centered">Profesores</h1>
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold text-center mb-8">Profesores</h1>
 
       {/* Mensaje de error */}
-      {error && <div className="notification is-danger">{error}</div>}
+      {error && (
+        <div className="bg-red-500 text-white p-4 rounded-lg mb-6">
+          {error}
+        </div>
+      )}
 
       {/* Formulario para agregar un nuevo profesor */}
-      <section className="section">
-        <h2 className="subtitle">Agregar Profesor</h2>
-        <form onSubmit={handleSubmitNewProfesor} className="box">
-          <div className="field">
-            <label className="label">Nombre</label>
-            <div className="control">
-              <input
-                type="text"
-                name="nombre"
-                value={newProfesor.nombre}
-                onChange={handleInputChange}
-                className="input"
-                placeholder="Nombre del profesor"
-                required
-              />
-            </div>
+      <section className="mb-8">
+        <h2 className="text-2xl font-semibold mb-4">Agregar Profesor</h2>
+        <form onSubmit={handleSubmitNewProfesor} className="bg-white p-6 rounded-lg shadow-md">
+          <div className="mb-4">
+            <label className="block text-gray-700">Nombre</label>
+            <input
+              type="text"
+              name="nombre"
+              value={newProfesor.nombre}
+              onChange={handleInputChange}
+              className="w-full p-2 border border-gray-300 rounded mt-1"
+              placeholder="Nombre del profesor"
+              required
+            />
           </div>
-          <div className="control">
-            <button type="submit" className="button is-link is-fullwidth">Agregar Profesor</button>
-          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300"
+          >
+            Agregar Profesor
+          </button>
         </form>
       </section>
 
       {/* Formulario para actualizar un profesor */}
       {editProfesor && (
-        <section className="section">
-          <h2 className="subtitle">Actualizar Profesor</h2>
-          <form onSubmit={handleUpdateProfesor} className="box">
-            <div className="field">
-              <label className="label">Nombre</label>
-              <div className="control">
-                <input
-                  type="text"
-                  name="nombre"
-                  value={editProfesor.nombre}
-                  onChange={e => setEditProfesor({ ...editProfesor, nombre: e.target.value })}
-                  className="input"
-                  required
-                />
-              </div>
+        <section className="mb-8">
+          <h2 className="text-2xl font-semibold mb-4">Actualizar Profesor</h2>
+          <form onSubmit={handleUpdateProfesor} className="bg-white p-6 rounded-lg shadow-md">
+            <div className="mb-4">
+              <label className="block text-gray-700">Nombre</label>
+              <input
+                type="text"
+                name="nombre"
+                value={editProfesor.nombre}
+                onChange={e => setEditProfesor({ ...editProfesor, nombre: e.target.value })}
+                className="w-full p-2 border border-gray-300 rounded mt-1"
+                required
+              />
             </div>
-            <div className="control">
-              <button type="submit" className="button is-info is-fullwidth">Actualizar Profesor</button>
-            </div>
+            <button
+              type="submit"
+              className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-300"
+            >
+              Actualizar Profesor
+            </button>
           </form>
         </section>
       )}
 
       {/* Lista de profesores */}
-      <section className="section">
-        <h2 className="subtitle">Lista de Profesores</h2>
-        <div className="box">
-          <ul>
-            {profesores.map(profesor => (
-              <li key={profesor.id} className="box">
-                <div className="columns is-mobile is-vcentered">
-                  <div className="column">
-                    <span>{profesor.nombre}</span>
-                  </div>
-                  <div className="column is-narrow">
-                    <button
-                      className="button is-small is-info is-outlined"
-                      onClick={() => handleEditProfesor(profesor)}
-                    >
-                      Editar
-                    </button>
-                    <button
-                      className="button is-small is-danger is-outlined ml-2"
-                      onClick={() => handleDeleteProfesor(profesor.id)}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Lista de Profesores</h2>
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <table className="w-full table-auto">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="px-4 py-2">ID</th>
+                <th className="px-4 py-2">Nombre</th>
+                <th className="px-4 py-2">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {profesores.map(profesor => (
+                <tr key={profesor.id} className="border-b hover:bg-gray-50 transition duration-300">
+                  <td className="px-4 py-2 text-center">{profesor.id}</td>
+                  <td className="px-4 py-2">{profesor.nombre}</td>
+                  <td className="px-4 py-2">
+                    <div className="flex justify-center space-x-2">
+                      <button
+                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition duration-300"
+                        onClick={() => handleEditProfesor(profesor)}
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300"
+                        onClick={() => handleDeleteProfesor(profesor.id)}
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
     </div>
