@@ -254,10 +254,24 @@ const Clientes = () => {
                   <td className="px-4 py-2">{cliente.correo}</td>
                   <td className="px-4 py-2">{cliente.telefono}</td>
                   <td className="px-4 py-2">{cliente.tarifa_mensual}</td>
-                  <td className="px-4 py-2">{cliente.profesores}</td>
                   <td className="px-4 py-2">{cliente.actividades}</td>
+               
                 </tr>
+                
               ))}
+           
+            </tbody>
+            <tbody>
+              {actividades.map(actividades => (
+                <tr key={actividades.actividad_id} className="border-b hover:bg-gray-50 transition duration-300">
+                 
+                  <td className="px-4 py-2">{actividades.nombreProfe}</td>
+            
+               
+                </tr>
+                
+              ))}
+           
             </tbody>
           </table>
         </div>
