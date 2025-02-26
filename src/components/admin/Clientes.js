@@ -7,6 +7,7 @@ const Clientes = () => {
   const [profesores, setProfesores] = useState([]);
   const [newCliente, setNewCliente] = useState({
     nombre: '',
+    direccion: '', // Nuevo campo
     correo: '',
     telefono: '',
     tarifa_mensual: '',
@@ -15,6 +16,7 @@ const Clientes = () => {
   });
   const [editCliente, setEditCliente] = useState(null);
   const [error, setError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
 
   // Obtener datos iniciales
   useEffect(() => {
@@ -61,34 +63,19 @@ const Clientes = () => {
         setClientes([...clientes, response.data]);
         setNewCliente({
           nombre: '',
+          direccion: '', // Reiniciar el campo dirección
           correo: '',
           telefono: '',
           tarifa_mensual: '',
           actividades: [],
           profesores: [],
         });
+        setIsModalOpen(false); // Cerrar el modal después de agregar
       })
       .catch(error => {
         console.error('Error al agregar el cliente:', error);
         setError('Hubo un problema al agregar el cliente.');
       });
-  };
-
-  // Eliminar un cliente
-  const handleDeleteCliente = (id) => {
-    axios.delete(`http://localhost:3001/clientes/${id}`)
-      .then(() => {
-        setClientes(clientes.filter(cliente => cliente.id !== id));
-      })
-      .catch(error => {
-        console.error('Error al eliminar el cliente:', error);
-        setError('Hubo un problema al eliminar el cliente.');
-      });
-  };
-
-  // Editar un cliente
-  const handleEditCliente = (cliente) => {
-    setEditCliente(cliente);
   };
 
   // Actualizar un cliente
@@ -115,117 +102,142 @@ const Clientes = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-4xl font-bold text-center mb-8 animate-bounce">Clientes</h1>
 
-      {/* Formulario para agregar un nuevo cliente */}
-      <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Agregar Cliente</h2>
-        <form onSubmit={handleSubmitNewCliente} className="bg-white p-6 rounded-lg shadow-md">
-          <div className="mb-4">
-            <label className="block text-gray-700">Nombre</label>
-            <input
-              type="text"
-              name="nombre"
-              value={newCliente.nombre}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded mt-1"
-              placeholder="Nombre del cliente"
-              required
-            />
+      {/* Botón para abrir el modal */}
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300 mb-8"
+      >
+        Agregar Cliente
+      </button>
+
+      {/* Modal para agregar un nuevo cliente */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl">
+            <h2 className="text-2xl font-semibold mb-4">Agregar Cliente</h2>
+            <form onSubmit={handleSubmitNewCliente}>
+              <div className="mb-4">
+                <label className="block text-gray-700">Nombre</label>
+                <input
+                  type="text"
+                  name="nombre"
+                  value={newCliente.nombre}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded mt-1"
+                  placeholder="Nombre del cliente"
+                  required
+                />
+              </div>
+
+              {/* Campo de dirección */}
+              <div className="mb-4">
+                <label className="block text-gray-700">Dirección</label>
+                <input
+                  type="text"
+                  name="direccion"
+                  value={newCliente.direccion}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded mt-1"
+                  placeholder="Dirección del cliente"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700">Correo</label>
+                <input
+                  type="email"
+                  name="correo"
+                  value={newCliente.correo}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded mt-1"
+                  placeholder="Correo del cliente"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700">Teléfono</label>
+                <input
+                  type="text"
+                  name="telefono"
+                  value={newCliente.telefono}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded mt-1"
+                  placeholder="Teléfono del cliente"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-gray-700">Tarifa Mensual</label>
+                <input
+                  type="number"
+                  name="tarifa_mensual"
+                  value={newCliente.tarifa_mensual}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded mt-1"
+                  placeholder="Tarifa mensual"
+                  required
+                />
+              </div>
+
+              {/* Selección de Actividades */}
+              <div className="mb-4">
+                <label className="block text-gray-700">Actividades</label>
+                <select
+                  name="actividades"
+                  value={newCliente.actividades}
+                  onChange={handleSelectChange}
+                  className="w-full p-2 border border-gray-300 rounded mt-1"
+                  multiple
+                  required
+                >
+                  {actividades.map(actividad => (
+                    <option key={actividad.id} value={actividad.id}>
+                      {actividad.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Selección de Profesores */}
+              <div className="mb-4">
+                <label className="block text-gray-700">Profesores</label>
+                <select
+                  name="profesores"
+                  value={newCliente.profesores}
+                  onChange={handleSelectChange}
+                  className="w-full p-2 border border-gray-300 rounded mt-1"
+                  multiple
+                  required
+                >
+                  {profesores.map(profesor => (
+                    <option key={profesor.id} value={profesor.id}>
+                      {profesor.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="flex justify-end space-x-4">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                >
+                  Agregar Cliente
+                </button>
+              </div>
+            </form>
           </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700">Correo</label>
-            <input
-              type="email"
-              name="correo"
-              value={newCliente.correo}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded mt-1"
-              placeholder="Correo del cliente"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700">Teléfono</label>
-            <input
-              type="text"
-              name="telefono"
-              value={newCliente.telefono}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded mt-1"
-              placeholder="Teléfono del cliente"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700">Tarifa Mensual</label>
-            <input
-              type="number"
-              name="tarifa_mensual"
-              value={newCliente.tarifa_mensual}
-              onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded mt-1"
-              placeholder="Tarifa mensual"
-              required
-            />
-          </div>
-
-          {/* Selección de Actividades */}
-          <div className="mb-4">
-            <label className="block text-gray-700">Actividades</label>
-            <select
-              name="actividades"
-              value={newCliente.actividades}
-              onChange={handleSelectChange}
-              className="w-full p-2 border border-gray-300 rounded mt-1"
-              multiple
-              required
-            >
-              {actividades.map(actividad => (
-                <option key={actividad.id} value={actividad.id}>
-                  {actividad.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Selección de Profesores */}
-          <div className="mb-4">
-            <label className="block text-gray-700">Profesores</label>
-            <select
-              name="profesores"
-              value={newCliente.profesores}
-              onChange={handleSelectChange}
-              className="w-full p-2 border border-gray-300 rounded mt-1"
-              multiple
-              required
-            >
-              {profesores.map(profesor => (
-                <option key={profesor.id} value={profesor.id}>
-                  {profesor.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300">
-            Agregar Cliente
-          </button>
-        </form>
-      </section>
-
-      {/* Formulario para actualizar un cliente */}
-      {editCliente && (
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Actualizar Cliente</h2>
-          <form onSubmit={handleUpdateCliente} className="bg-white p-6 rounded-lg shadow-md">
-            {/* Campos similares al formulario de agregar */}
-            <button type="submit" className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-300">
-              Actualizar Cliente
-            </button>
-          </form>
-        </section>
+        </div>
       )}
 
       {/* Lista de clientes */}
@@ -254,14 +266,11 @@ const Clientes = () => {
                   <td className="px-4 py-2">{cliente.correo}</td>
                   <td className="px-4 py-2">{cliente.telefono}</td>
                   <td className="px-4 py-2">{cliente.tarifa_mensual}</td>
-                  <td className="px-4 py-2">{cliente.nombreProfe }</td>
+                  <td className="px-4 py-2">{cliente.nombreProfe}</td>
                   <td className="px-4 py-2">{cliente.actividades}</td>
                 </tr>
-                
               ))}
-           
             </tbody>
-           
           </table>
         </div>
       </section>
