@@ -26,10 +26,14 @@ const Clientes = () => {
       .then(response => setProfesores(response.data))
       .catch(error => console.error('Error fetching profesores:', error));
 
+    fetchClientes();
+  }, []);
+
+  const fetchClientes = () => {
     axios.get('http://localhost:3001/clientes/clientes-con-profesores-y-actividades')
       .then(response => setClientes(response.data))
       .catch(error => console.error('Error fetching clientes:', error));
-  }, []);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -65,6 +69,11 @@ const Clientes = () => {
         setError('Hubo un problema al agregar el cliente.');
       });
   };
+  const handleFilterByActividad = (actividades) => {
+    axios.get(`http://localhost:3001/clientes/filtrar-por-actividad/${actividades}`)
+        .then(response => setClientes(response.data))
+        .catch(error => console.error('Error filtrando clientes por actividad:', error));
+};
 
   return (
     <div className="container mx-auto p-4">
@@ -76,6 +85,33 @@ const Clientes = () => {
       >
         Agregar Cliente
       </button>
+
+      <div className="flex space-x-4 mb-8">
+    <button
+        onClick={() => handleFilterByActividad("Pilates")}
+        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+    >
+        Pilates
+    </button>
+    <button
+        onClick={() => handleFilterByActividad("Spinning")}
+        className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition duration-300"
+    >
+        Spinning
+    </button>
+    <button
+        onClick={() => handleFilterByActividad("Yoga")}
+        className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition duration-300"
+    >
+        Yoga
+    </button>
+    <button
+        onClick={fetchClientes} // Botón para mostrar todos los clientes
+        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
+    >
+        Mostrar Todos
+    </button>
+</div>
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">

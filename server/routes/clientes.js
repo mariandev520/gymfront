@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const clientesController = require('../controllers/ClientesController');
-
+const clientesController = require('../controllers/clientesController');
 
 // Obtener clientes con sus profesores y actividades
 router.get('/clientes-con-profesores-y-actividades', clientesController.getClientesConProfesoresYActividades);
+
+// Filtrar clientes por actividad (usando la columna actividad)
+router.get('/filtrar-por-actividad/:actividades', clientesController.getClientesByActividad);
 
 // Obtener todos los clientes
 router.get('/', clientesController.getClientes);
@@ -19,6 +21,6 @@ router.get('/:id', clientesController.getClienteById);
 router.put('/:id', clientesController.updateCliente);
 
 // Eliminar un cliente
-router.delete('/:id', clientesController.deleteCliente);  // Asegúrate de que esta ruta esté correctamente configurada
+router.delete('/:id', clientesController.deleteCliente);
 
 module.exports = router;

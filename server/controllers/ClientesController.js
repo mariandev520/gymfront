@@ -126,3 +126,31 @@ exports.deleteCliente = (req, res) => {
     }
   });
 };
+// Filtrar clientes por actividad (usando la columna actividad en la tabla clientes)
+exports.getClientesByActividad = (req, res) => {
+    const { actividades } = req.params; // Cambia actividadId por actividad
+
+    const query = `
+        SELECT 
+            id AS cliente_id,
+            nombre AS cliente_nombre,
+            direccion,
+            correo,
+            telefono,
+            tarifa_mensual,
+            actividades
+        FROM 
+            clientes
+        WHERE 
+            actividades = ?;
+    `;
+
+    connection.query(query, [actividades], (err, results) => {
+        if (err) {
+            console.error('Error al filtrar clientes por actividad:', err);
+            res.status(500).json({ message: 'Error al filtrar clientes por actividad', error: err });
+        } else {
+            res.status(200).json(results);
+        }
+    });
+};
