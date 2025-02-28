@@ -50,7 +50,7 @@ const Clientes = () => {
 
   const handleSubmitNewCliente = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/clientes', newCliente)
+    axios.post('https://0f0e-201-178-213-122.ngrok-free.app/clientes', newCliente)
       .then(response => {
         setClientes([...clientes, response.data]);
         setNewCliente({
