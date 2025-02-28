@@ -15,8 +15,6 @@ app.use(bodyParser.json());
 
 
 
-app.use(cors(corsOptions));
-
 // Usar las rutas de clientes
 app.use('/clientes', clientesRoutes);
 app.use('/actividades', actividadesRoutes);
