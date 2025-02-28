@@ -10,7 +10,7 @@ const Profes = () => {
 
   // Obtener los profesores desde la API
   useEffect(() => {
-    axios.get('http://localhost:3001/profesores')
+    axios.get('https://54d3-201-178-213-122.ngrok-free.app/profesores')
       .then(response => {
         setProfesores(response.data);
         setLoading(false);
