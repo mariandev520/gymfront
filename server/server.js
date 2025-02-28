@@ -13,6 +13,14 @@ const port = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
+const corsOptions = {
+  origin: 'https://gymfront.vercel.app', // Permitir solo este dominio
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
+
 
 
 // Usar las rutas de clientes
