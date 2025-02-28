@@ -18,7 +18,7 @@ const Clientes = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('http://e550-201-178-213-122.ngrok-free.app/1/actividades')
+    axios.get('https://0f0e-201-178-213-122.ngrok-free.app/clientes/actividades')
       .then(response => setActividades(response.data))
       .catch(error => console.error('Error fetching actividades:', error));
 
@@ -70,7 +70,7 @@ const Clientes = () => {
       });
   };
   const handleFilterByActividad = (actividades) => {
-    axios.get(`http://localhost:3001/clientes/filtrar-por-actividad/${actividades}`)
+    axios.get(`https://0f0e-201-178-213-122.ngrok-free.app/clientes/filtrar-por-actividad/${actividades}`)
         .then(response => setClientes(response.data))
         .catch(error => console.error('Error filtrando clientes por actividad:', error));
 };

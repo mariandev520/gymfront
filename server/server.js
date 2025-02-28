@@ -7,7 +7,7 @@ const actividadesRoutes = require('./routes/actividades');
 const profesoresRoutes = require('./routes/profesores'); // Asegúrate de que esta importación sea correcta
 
 const app = express();
-const port = 3001;
+const port = 5000;
 
 // Middleware
 app.use(cors());
