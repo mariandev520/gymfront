@@ -18,11 +18,11 @@ const Clientes = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('https://e550-201-178-213-122.ngrok-free.app/actividades')
+    axios.get('https://54d3-201-178-213-122.ngrok-free.app/actividades')
       .then(response => setActividades(response.data))
       .catch(error => console.error('Error fetching actividades:', error));
 
-    axios.get('https://e550-201-178-213-122.ngrok-free.app/profesores')
+    axios.get('https://54d3-201-178-213-122.ngrok-free.app/profesores')
       .then(response => setProfesores(response.data))
       .catch(error => console.error('Error fetching profesores:', error));
 
@@ -30,7 +30,7 @@ const Clientes = () => {
   }, []);
 
   const fetchClientes = () => {
-    axios.get('https://e550-201-178-213-122.ngrok-free.app/clientes/clientes-con-profesores-y-actividades')
+    axios.get('https://54d3-201-178-213-122.ngrok-free.app/clientes/clientes-con-profesores-y-actividades')
       .then(response => setClientes(response.data))
       .catch(error => console.error('Error fetching clientes:', error));
   };
@@ -50,7 +50,7 @@ const Clientes = () => {
 
   const handleSubmitNewCliente = (e) => {
     e.preventDefault();
-    axios.post('https://e550-201-178-213-122.ngrok-free.app/clientes', newCliente)
+    axios.post('https://54d3-201-178-213-122.ngrok-free.app/clientes', newCliente)
       .then(response => {
         setClientes([...clientes, response.data]);
         setNewCliente({
@@ -70,7 +70,7 @@ const Clientes = () => {
       });
   };
   const handleFilterByActividad = (actividades) => {
-    axios.get(`https://e550-201-178-213-122.ngrok-free.app/clientes/filtrar-por-actividad/${actividades}`)
+    axios.get(`https://54d3-201-178-213-122.ngrok-free.app/clientes/filtrar-por-actividad/${actividades}`)
         .then(response => setClientes(response.data))
         .catch(error => console.error('Error filtrando clientes por actividad:', error));
 };
