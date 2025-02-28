@@ -30,7 +30,7 @@ const Clientes = () => {
   }, []);
 
   const fetchClientes = () => {
-    axios.get('https://54d3-201-178-213-122.ngrok-free.app/clientes/clientes-con-profesores-y-actividades')
+    axios.get('https://54d3-201-178-213-122.ngrok-free.app/clientes')
       .then(response => setClientes(response.data))
       .catch(error => console.error('Error fetching clientes:', error));
   };
