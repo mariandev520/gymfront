@@ -7,19 +7,11 @@ const actividadesRoutes = require('./routes/actividades');
 const profesoresRoutes = require('./routes/profesores'); // Asegúrate de que esta importación sea correcta
 
 const app = express();
-const port = 5000;
+const port = 3001;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-
-const corsOptions = {
-  origin: 'https://gymfront.vercel.app', // Permitir solo este dominio
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  allowedHeaders: ['Content-Type', 'Authorization']
-};
-
-app.use(cors(corsOptions));
 
 
 

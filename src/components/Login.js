@@ -24,61 +24,86 @@ const Login = ({ setUser }) => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-indigo-600">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="bg-white p-8 rounded-2xl shadow-lg w-96"
-      >
-        <h2 className="text-2xl font-bold text-center text-gray-700">Iniciar Sesión</h2>
-
-        {error && (
-          <motion.div
-            initial={{ x: -10 }}
-            animate={{ x: [0, -10, 10, -10, 0] }}
-            transition={{ duration: 0.3 }}
-            className="text-red-500 bg-red-100 p-2 mt-2 rounded-md text-center"
-          >
-            {error}
-          </motion.div>
-        )}
-
-        <div className="mt-4">
-          <label className="block text-gray-600 font-medium">Usuario</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Ingresa tu usuario"
-            className="w-full p-3 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div className="mt-4">
-          <label className="block text-gray-600 font-medium">Contraseña</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Ingresa tu contraseña"
-            className="w-full p-3 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <button
-          onClick={handleLogin}
-          className="w-full mt-6 p-3 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 transition duration-300 transform hover:scale-105"
+      <div className="flex flex-col items-center"> {/* Agregado para centrar el chat y el formulario */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white p-8 rounded-2xl shadow-lg w-96 mb-8" // Agregado mb-8 para espacio entre el formulario y el chat
         >
-          Entrar
-        </button>
+          <h2 className="text-2xl font-bold text-center text-gray-700">Iniciar Sesión</h2>
 
-        <p className="mt-4 text-center text-gray-500 text-sm">
-          ¿No tienes cuenta?{" "}
-          <a href="#" className="text-blue-600 font-semibold hover:underline">
-            Regístrate aquí
+          {error && (
+            <motion.div
+              initial={{ x: -10 }}
+              animate={{ x: [0, -10, 10, -10, 0] }}
+              transition={{ duration: 0.3 }}
+              className="text-red-500 bg-red-100 p-2 mt-2 rounded-md text-center"
+            >
+              {error}
+            </motion.div>
+          )}
+
+          <div className="mt-4">
+            <label className="block text-gray-600 font-medium">Usuario</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Ingresa tu usuario"
+              className="w-full p-3 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="mt-4">
+            <label className="block text-gray-600 font-medium">Contraseña</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Ingresa tu contraseña"
+              className="w-full p-3 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <button
+            onClick={handleLogin}
+            className="w-full mt-6 p-3 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 transition duration-300 transform hover:scale-105"
+          >
+            Entrar
+          </button>
+
+          <p className="mt-4 text-center text-gray-500 text-sm">
+            ¿No tienes cuenta?{" "}
+            <a href="#" className="text-blue-600 font-semibold hover:underline">
+              Regístrate aquí
+            </a>
+          </p>
+        </motion.div>
+
+        {/* Insertar el chat aquí */}
+        <iframe
+          src="https://xat.com/embed/chat.php#id=220531174&gn=estoyviendolapantalla15"
+          width="650"
+          height="486"
+          frameBorder="0"
+          scrolling="no"
+        ></iframe>
+        <br />
+        <small>
+          <a
+            target="_BLANK"
+            href="https://xat.com/web_gear/chat/embed.php?id=220531174&GroupName=estoyviendolapantalla15"
+          >
+            Get estoyviendolapantalla15 chat group
+          </a>{" "}
+          |{" "}
+          <a target="_BLANK" href="https://xat.com/estoyviendolapantalla15">
+            Go to estoyviendolapantalla15 website
           </a>
-        </p>
-      </motion.div>
+        </small>
+        <br />
+      </div>
     </div>
   );
 };

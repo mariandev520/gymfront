@@ -10,7 +10,7 @@ const Actividades = () => {
 
   // Obtener las actividades desde la API
   useEffect(() => {
-    axios.get('https://e550-201-178-213-122.ngrok-free.app/actividades')
+    axios.get('http://localhost:3001/actividades')
       .then(response => {
         setActividades(response.data);
         setLoading(false);
@@ -29,7 +29,7 @@ const Actividades = () => {
 
   const handleSubmitNewActividad = (e) => {
     e.preventDefault();
-    axios.post('https://e550-201-178-213-122.ngrok-free.ap/actividades', newActividad)
+    axios.post('http://localhost:3001/actividades', newActividad)
       .then(response => {
         setActividades([...actividades, response.data]);
         setNewActividad({ nombre: '' });
@@ -41,7 +41,7 @@ const Actividades = () => {
   };
 
   const handleDeleteActividad = (id) => {
-    axios.delete(`https://e550-201-178-213-122.ngrok-free.ap/actividades/${id}`)
+    axios.delete(`http://localhost:3001/actividades/${id}`)
       .then(response => {
         setActividades(actividades.filter(actividad => actividad.id !== id));
       })
@@ -57,7 +57,7 @@ const Actividades = () => {
 
   const handleUpdateActividad = (e) => {
     e.preventDefault();
-    axios.put(`https://e550-201-178-213-122.ngrok-free.ap/actividades/${editActividad.id}`, editActividad)
+    axios.put(`http://localhost:3001/actividades/${editActividad.id}`, editActividad)
       .then(response => {
         setActividades(actividades.map(actividad =>
           actividad.id === editActividad.id ? response.data : actividad
