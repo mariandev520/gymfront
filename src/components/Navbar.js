@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Estado para controlar el menú hamburguesa
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -11,7 +11,7 @@ const Navbar = () => {
   return (
     <nav className="bg-gray-700 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex justify-between h-16 items-center">
           {/* Logo y marca */}
           <div className="flex items-center">
             <Link
@@ -71,7 +71,7 @@ const Navbar = () => {
 
       {/* Menú desplegable (para móviles) */}
       {isMenuOpen && (
-        <div className="md:hidden bg-blue-600">
+        <div className="md:hidden bg-gray-700">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <Link
               to="/"

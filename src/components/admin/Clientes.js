@@ -71,9 +71,9 @@ const Clientes = () => {
   };
   const handleFilterByActividad = (actividades) => {
     axios.get(`http://localhost:3001/clientes/filtrar-por-actividad/${actividades}`)
-        .then(response => setClientes(response.data))
-        .catch(error => console.error('Error filtrando clientes por actividad:', error));
-};
+      .then(response => setClientes(response.data))
+      .catch(error => console.error('Error filtrando clientes por actividad:', error));
+  };
 
   return (
     <div className="container bg-black mx-auto p-4">
@@ -86,32 +86,32 @@ const Clientes = () => {
         Agregar Cliente
       </button>
 
-      <div className="flex  space-x-4 mb-8">
-    <button
-        onClick={() => handleFilterByActividad("Pilates")}
-        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
-    >
-        Pilates
-    </button>
-    <button
-        onClick={() => handleFilterByActividad("Spinning")}
-        className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition duration-300"
-    >
-        Spinning
-    </button>
-    <button
-        onClick={() => handleFilterByActividad("Yoga")}
-        className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition duration-300"
-    >
-        Yoga
-    </button>
-    <button
-        onClick={fetchClientes} // Botón para mostrar todos los clientes
-        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
-    >
-        Mostrar Todos
-    </button>
-</div>
+      <div className="flex flex-wrap space-x-4 mb-8">
+        <button
+          onClick={() => handleFilterByActividad("Pilates")}
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300 mb-2"
+        >
+          Pilates
+        </button>
+        <button
+          onClick={() => handleFilterByActividad("Spinning")}
+          className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition duration-300 mb-2"
+        >
+          Spinning
+        </button>
+        <button
+          onClick={() => handleFilterByActividad("Yoga")}
+          className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition duration-300 mb-2"
+        >
+          Yoga
+        </button>
+        <button
+          onClick={fetchClientes}
+          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300 mb-2"
+        >
+          Mostrar Todos
+        </button>
+      </div>
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
@@ -218,7 +218,6 @@ const Clientes = () => {
                   ))}
                 </select>
               </div>
-
               <div className="flex justify-end space-x-4">
                 <button
                   type="button"
@@ -243,10 +242,10 @@ const Clientes = () => {
 
       <section>
         <h2 className="text-2xl font-semibold mb-4">Lista de Clientes</h2>
-        <div className="bg-gray-900 p-6 rounded-lg shadow-md">
+        <div className="bg-gray-900 p-6 rounded-lg shadow-md overflow-x-auto">
           <table className="w-full table-auto">
             <thead>
-              <tr className=" bg-gray-900 text-white">
+              <tr className="bg-gray-900 text-white">
                 <th className="px-4 py-2">Nombre</th>
                 <th className="px-4 py-2">Dirección</th>
                 <th className="px-4 py-2">Correo</th>
@@ -257,13 +256,13 @@ const Clientes = () => {
             </thead>
             <tbody>
               {clientes.map(cliente => (
-                <tr key={cliente.cliente_id} className="border-4 border-gray-700 rounded hover:bg-gray-900 text-white  transition duration-300">
+                <tr key={cliente.cliente_id} className="border-4 border-gray-700 rounded hover:bg-gray-900 text-white transition duration-300">
                   <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.cliente_nombre}</td>
-                  <td className="px-4 bg-gray-900 text-gray-300  py-2">{cliente.direccion}</td>
-                  <td className="px-4 bg-gray-900 text-gray-300   py-2">{cliente.correo}</td>
-                  <td className="px-4  bg-gray-900 text-gray-300  py-2">{cliente.telefono}</td>
-                  <td className="px-4  bg-gray-900 text-gray-300 py-2">{cliente.tarifa_mensual}</td>
-                  <td className="px-4  bg-gray-900 text-gray-300  py-2">{cliente.actividades}</td>
+                  <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.direccion}</td>
+                  <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.correo}</td>
+                  <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.telefono}</td>
+                  <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.tarifa_mensual}</td>
+                  <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.actividades}</td>
                 </tr>
               ))}
             </tbody>
