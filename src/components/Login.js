@@ -24,7 +24,7 @@ const Login = ({ setUser }) => {
 
   return (
     
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-indigo-600">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-black to-indigo-800">
       
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}

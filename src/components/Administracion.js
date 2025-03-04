@@ -2,7 +2,7 @@ import React from 'react';
 
 const Administracion = () => {
   return (
-    <div className="section">
+    <div className="section bg-black">
       <div className="container">
         <h1 className="title">Administración</h1>
         <p>Bienvenido al panel de administración.</p>

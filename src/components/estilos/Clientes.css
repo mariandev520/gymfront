@@ -3,6 +3,7 @@
     max-width: 1200px;
     margin: 0; /* Eliminamos el margen automático para centrar */
     padding: 20px;
+    background-color: #0a0606;
   }
   
   /* Centrar el contenido */
@@ -39,7 +40,7 @@
   }
   
   .table th {
-    background-color: #f5f5f5;
+    background-color: #0a0606;
     cursor: pointer;
   }
   

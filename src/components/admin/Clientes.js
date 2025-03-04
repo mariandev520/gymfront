@@ -76,7 +76,7 @@ const Clientes = () => {
 };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container bg-black mx-auto p-4">
       <h1 className="text-4xl font-bold text-center mb-8">Clientes</h1>
 
       <button
@@ -86,7 +86,7 @@ const Clientes = () => {
         Agregar Cliente
       </button>
 
-      <div className="flex space-x-4 mb-8">
+      <div className="flex  space-x-4 mb-8">
     <button
         onClick={() => handleFilterByActividad("Pilates")}
         className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
@@ -243,10 +243,10 @@ const Clientes = () => {
 
       <section>
         <h2 className="text-2xl font-semibold mb-4">Lista de Clientes</h2>
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-black p-6 rounded-lg shadow-md">
           <table className="w-full table-auto">
             <thead>
-              <tr className="bg-gray-200">
+              <tr className=" bg-black text-white">
                 <th className="px-4 py-2">Nombre</th>
                 <th className="px-4 py-2">Dirección</th>
                 <th className="px-4 py-2">Correo</th>
@@ -257,13 +257,13 @@ const Clientes = () => {
             </thead>
             <tbody>
               {clientes.map(cliente => (
-                <tr key={cliente.cliente_id} className="border-b hover:bg-gray-50 transition duration-300">
-                  <td className="px-4 py-2">{cliente.cliente_nombre}</td>
-                  <td className="px-4 py-2">{cliente.direccion}</td>
-                  <td className="px-4 py-2">{cliente.correo}</td>
-                  <td className="px-4 py-2">{cliente.telefono}</td>
-                  <td className="px-4 py-2">{cliente.tarifa_mensual}</td>
-                  <td className="px-4 py-2">{cliente.actividades}</td>
+                <tr key={cliente.cliente_id} className="border-b hover:bg-black text-white transition duration-300">
+                  <td className="px-4 bg-black text-white py-2">{cliente.cliente_nombre}</td>
+                  <td className="px-4 bg-black text-white py-2">{cliente.direccion}</td>
+                  <td className="px-4  bg-black text-white  py-2">{cliente.correo}</td>
+                  <td className="px-4  bg-black text-white py-2">{cliente.telefono}</td>
+                  <td className="px-4  bg-black text-white py-2">{cliente.tarifa_mensual}</td>
+                  <td className="px-4  bg-black text-white py-2">{cliente.actividades}</td>
                 </tr>
               ))}
             </tbody>

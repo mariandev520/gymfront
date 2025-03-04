@@ -1,6 +1,6 @@
 /* Navbar.css */
 .navbar {
-    background-color: #fff; /* Color de fondo blanco */
+    background-color: #000000; /* Color de fondo blanco */
     padding: 1rem 0; /* Ajusta el padding vertical */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
     position: relative; /* Para que el sidebar no se superponga */
@@ -64,7 +64,7 @@
       top: 100%; /* debajo del navbar */
       left: 0;
       width: 100%;
-      background-color: #fff;
+      background-color: #000000;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   

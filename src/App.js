@@ -22,13 +22,13 @@ const App = () => {
       <div className="flex min-h-screen">
         {/* Mostrar Sidebar solo si el usuario es un admin */}
         {user?.role === 'admin' && (
-          <div className="w-64 bg-gray-800 text-white flex-shrink-0">
+          <div className="w-64 bg-gray-900 text-white flex-shrink-0">
             <Sidebar />
           </div>
         )}
 
         {/* Contenido Principal */}
-        <div className={`flex-1 ${user?.role === 'admin' ? 'p-4' : ''}`}>
+        <div className={`flex-1 bg-black ${user?.role === 'admin' ? 'p-4' : ''}`}>
           <Routes>
             {/* Redirigir la ruta raíz ("/") al Login */}
             <Route
