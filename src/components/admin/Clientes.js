@@ -243,10 +243,10 @@ const Clientes = () => {
 
       <section>
         <h2 className="text-2xl font-semibold mb-4">Lista de Clientes</h2>
-        <div className="bg-black p-6 rounded-lg shadow-md">
+        <div className="bg-gray-900 p-6 rounded-lg shadow-md">
           <table className="w-full table-auto">
             <thead>
-              <tr className=" bg-black text-white">
+              <tr className=" bg-gray-900 text-white">
                 <th className="px-4 py-2">Nombre</th>
                 <th className="px-4 py-2">Dirección</th>
                 <th className="px-4 py-2">Correo</th>
@@ -257,13 +257,13 @@ const Clientes = () => {
             </thead>
             <tbody>
               {clientes.map(cliente => (
-                <tr key={cliente.cliente_id} className="border-b hover:bg-black text-white transition duration-300">
-                  <td className="px-4 bg-black text-white py-2">{cliente.cliente_nombre}</td>
-                  <td className="px-4 bg-black text-white py-2">{cliente.direccion}</td>
-                  <td className="px-4  bg-black text-white  py-2">{cliente.correo}</td>
-                  <td className="px-4  bg-black text-white py-2">{cliente.telefono}</td>
-                  <td className="px-4  bg-black text-white py-2">{cliente.tarifa_mensual}</td>
-                  <td className="px-4  bg-black text-white py-2">{cliente.actividades}</td>
+                <tr key={cliente.cliente_id} className="border-4 border-gray-700 rounded hover:bg-gray-900 text-white  transition duration-300">
+                  <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.cliente_nombre}</td>
+                  <td className="px-4 bg-gray-900 text-gray-300  py-2">{cliente.direccion}</td>
+                  <td className="px-4 bg-gray-900 text-gray-300   py-2">{cliente.correo}</td>
+                  <td className="px-4  bg-gray-900 text-gray-300  py-2">{cliente.telefono}</td>
+                  <td className="px-4  bg-gray-900 text-gray-300 py-2">{cliente.tarifa_mensual}</td>
+                  <td className="px-4  bg-gray-900 text-gray-300  py-2">{cliente.actividades}</td>
                 </tr>
               ))}
             </tbody>
