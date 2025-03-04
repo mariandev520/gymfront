@@ -248,10 +248,10 @@ const Clientes = () => {
               <tr className="bg-gray-900 text-white">
                 <th className="px-4 py-2">Nombre</th>
                 <th className="px-4 py-2">Dirección</th>
-                <th className="px-4 py-2">Correo</th>
-                <th className="px-4 py-2">Teléfono</th>
-                <th className="px-4 py-2">Tarifa Mensual</th>
-                <th className="px-4 py-2">Actividades</th>
+                <th className="hidden sm:table-cell px-4 py-2">Correo</th>
+                <th className="hidden sm:table-cell px-4 py-2">Teléfono</th>
+                <th className="hidden sm:table-cell px-4 py-2">Tarifa Mensual</th>
+                <th className="hidden sm:table-cell px-4 py-2">Actividades</th>
               </tr>
             </thead>
             <tbody>
@@ -259,10 +259,10 @@ const Clientes = () => {
                 <tr key={cliente.cliente_id} className="border-4 border-gray-700 rounded hover:bg-gray-900 text-white transition duration-300">
                   <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.cliente_nombre}</td>
                   <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.direccion}</td>
-                  <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.correo}</td>
-                  <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.telefono}</td>
-                  <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.tarifa_mensual}</td>
-                  <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.actividades}</td>
+                  <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.correo}</td>
+                  <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.telefono}</td>
+                  <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.tarifa_mensual}</td>
+                  <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.actividades}</td>
                 </tr>
               ))}
             </tbody>
