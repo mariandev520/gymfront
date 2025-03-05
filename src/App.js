@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
+import Footer from './components/Footer';
 import Login from './components/Login';
 import MisDatos from './components/MisDatos';
 import Administracion from './components/Administracion';
@@ -58,8 +58,11 @@ const App = () => {
             />
           </Routes>
         </div>
+        
       </div>
+      <Footer />
     </Router>
+
   );
 };
 
