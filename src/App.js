@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; // Corregí "Navigate"
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-import Footer from './components/Footer';
 import Login from './components/Login';
 import MisDatos from './components/MisDatos';
 import Administracion from './components/Administracion';
@@ -16,21 +15,18 @@ const App = () => {
 
   return (
     <Router>
-      {/* Mostrar Navbar solo si el usuario está autenticado */}
-     
-
-      <div className="flex min-h-screen">
-        {/* Mostrar Sidebar solo si el usuario es un admin */}
+      {/* Contenedor principal con diseño adaptable */}
+      <div className="min-h-screen flex flex-col md:flex-row bg-black">
+        {/* Sidebar para admin, oculto en móviles y visible en pantallas grandes */}
         {user?.role === 'admin' && (
-          <div className=" bg-gray-900 text-white ">
+          <div className="bg-black text-white md:w-64">
             <Sidebar />
           </div>
         )}
 
-        {/* Contenido Principal */}
-        <div className={`flex-1 bg-black ${user?.role === 'admin' ? 'p-4' : ''}`}>
+        {/* Contenido principal */}
+        <div className="flex-1 p-4">
           <Routes>
-            {/* Redirigir la ruta raíz ("/") al Login */}
             <Route
               path="/"
               element={user ? <Navigate to="/mis-datos" /> : <Login setUser={setUser} />}
@@ -63,9 +59,6 @@ const App = () => {
           </Routes>
         </div>
       </div>
-
-      {/* Mostrar Footer solo si el usuario está autenticado */}
-      {user && <Footer />}
     </Router>
   );
 };

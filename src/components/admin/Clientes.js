@@ -240,34 +240,49 @@ const Clientes = () => {
       {error && <div className="p-4 bg-red-500 text-white">{error}</div>}
   
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Lista de Clientes</h2>
-        <div className="bg-gray-900 p-6 rounded-lg shadow-md overflow-x-auto">
-          <table className="w-full table-auto">
-            <thead>
-              <tr className="bg-gray-900 text-white">
-                <th className="px-4 py-2">Nombre</th>
-                <th className="px-4 py-2">Dirección</th>
-                <th className="hidden sm:table-cell px-4 py-2">Correo</th>
-                <th className="hidden sm:table-cell px-4 py-2">Teléfono</th>
-                <th className="hidden sm:table-cell px-4 py-2">Tarifa Mensual</th>
-                <th className="hidden sm:table-cell px-4 py-2">Actividades</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clientes.map(cliente => (
-                <tr key={cliente.cliente_id} className="border-4 border-gray-700 rounded hover:bg-gray-900 text-white transition duration-300">
-                  <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.cliente_nombre}</td>
-                  <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.direccion}</td>
-                  <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.correo}</td>
-                  <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.telefono}</td>
-                  <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.tarifa_mensual}</td>
-                  <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.actividades}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
+  <h2 className="text-2xl font-semibold mb-4">Lista de Clientes</h2>
+  <div className="bg-gray-900 p-6 rounded-lg shadow-md overflow-x-auto">
+    <table className="w-full table-auto">
+      <thead>
+        <tr className="bg-gray-900 text-white">
+          <th className="px-4 py-2">Nombre</th>
+          <th className="px-4 py-2">Actividad</th>
+          <th className="hidden sm:table-cell px-4 py-2">Dirección</th>
+          <th className="hidden sm:table-cell px-4 py-2">Teléfono</th>
+          <th className="hidden sm:table-cell px-4 py-2">Correo</th>
+          <th className="hidden sm:table-cell px-4 py-2">Tarifa Mensual</th>
+        </tr>
+      </thead>
+      <tbody>
+        {clientes.map((cliente) => (
+          <React.Fragment key={cliente.cliente_id}>
+            {/* Fila principal (Nombre y Actividad) */}
+            <tr className="border-4 border-gray-700 rounded hover:bg-gray-900 text-white transition duration-300">
+              <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.cliente_nombre}</td>
+              <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.actividades}</td>
+              {/* Columnas ocultas en móviles */}
+              <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.direccion}</td>
+              <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.telefono}</td>
+              <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.correo}</td>
+              <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.tarifa_mensual}</td>
+            </tr>
+            {/* Fila adicional para móviles (detalles) */}
+            <tr className="sm:hidden">
+              <td colSpan="2" className="px-4 bg-gray-900 text-gray-300 py-2">
+                <div className="flex flex-col space-y-2">
+                  <p><span className="font-bold">Dirección:</span> {cliente.direccion}</p>
+                  <p><span className="font-bold">Teléfono:</span> {cliente.telefono}</p>
+                  <p><span className="font-bold">Correo:</span> {cliente.correo}</p>
+                  <p><span className="font-bold">Tarifa Mensual:</span> {cliente.tarifa_mensual}</p>
+                </div>
+              </td>
+            </tr>
+          </React.Fragment>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>
     </div>
     );
   };
