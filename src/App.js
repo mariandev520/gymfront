@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; // Corregí "Navigate"
-import Navbar from './components/Navbar';
+
 import Footer from './components/Footer';
 import Login from './components/Login';
 import MisDatos from './components/MisDatos';
@@ -17,12 +17,12 @@ const App = () => {
   return (
     <Router>
       {/* Mostrar Navbar solo si el usuario está autenticado */}
-      {user && <Navbar />}
+     
 
       <div className="flex min-h-screen">
         {/* Mostrar Sidebar solo si el usuario es un admin */}
         {user?.role === 'admin' && (
-          <div className="w-64 bg-gray-900 text-white flex-shrink-0">
+          <div className=" bg-gray-900 text-white ">
             <Sidebar />
           </div>
         )}

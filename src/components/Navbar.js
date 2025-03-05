@@ -10,8 +10,8 @@ const Navbar = () => {
 
   return (
     <nav className="bg-gray-700 shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
+      <div className=" mx-auto ">
+        <div className="flex justify-between tems-center">
           {/* Logo y marca */}
           <div className="flex items-center">
             <Link
@@ -23,7 +23,7 @@ const Navbar = () => {
           </div>
 
           {/* Menú hamburguesa (para móviles) */}
-          <div className="flex items-center md:hidden">
+          <div className="">
             <button
               onClick={toggleMenu}
               className="text-white focus:outline-none"

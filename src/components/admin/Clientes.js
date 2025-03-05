@@ -16,6 +16,7 @@ const Clientes = () => {
     profesores: [],
   });
   const [error, setError] = useState('');
+  const [selectedActividad, setSelectedActividad] = useState(null);
 
   useEffect(() => {
     axios.get('http://localhost:3001/clientes/actividades')
@@ -69,14 +70,23 @@ const Clientes = () => {
         setError('Hubo un problema al agregar el cliente.');
       });
   };
-  const handleFilterByActividad = (actividades) => {
-    axios.get(`http://localhost:3001/clientes/filtrar-por-actividad/${actividades}`)
-      .then(response => setClientes(response.data))
-      .catch(error => console.error('Error filtrando clientes por actividad:', error));
+
+  const handleFilterByActividad = (actividad) => {
+    if (actividad === "Mostrar Todos") {
+      fetchClientes();
+      setSelectedActividad(null);
+    } else {
+      axios.get(`http://localhost:3001/clientes/filtrar-por-actividad/${actividad}`)
+        .then(response => setClientes(response.data))
+        .catch(error => console.error('Error filtrando clientes por actividad:', error));
+      setSelectedActividad(actividad);
+    }
   };
 
+  const actividadesList = ["Pilates", "Spinning", "Yoga", "Mostrar Todos"];
+
   return (
-    <div className="container bg-black mx-auto p-4">
+    <div className="container bg-black  p-4">
       <h1 className="text-4xl font-bold text-center mb-8">Clientes</h1>
 
       <button
@@ -86,31 +96,20 @@ const Clientes = () => {
         Agregar Cliente
       </button>
 
-      <div className="flex flex-wrap space-x-4 mb-8">
-        <button
-          onClick={() => handleFilterByActividad("Pilates")}
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300 mb-2"
-        >
-          Pilates
-        </button>
-        <button
-          onClick={() => handleFilterByActividad("Spinning")}
-          className="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition duration-300 mb-2"
-        >
-          Spinning
-        </button>
-        <button
-          onClick={() => handleFilterByActividad("Yoga")}
-          className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition duration-300 mb-2"
-        >
-          Yoga
-        </button>
-        <button
-          onClick={fetchClientes}
-          className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300 mb-2"
-        >
-          Mostrar Todos
-        </button>
+      <div className="mb-8">
+        {actividadesList.map((actividad) => (
+          <span
+            key={actividad}
+            onClick={() => handleFilterByActividad(actividad)}
+            className={`cursor-pointer px-4 py-2 rounded transition duration-300 mr-4 mb-2 inline-block ${
+              selectedActividad === actividad
+                ? 'bg-blue-200 text-blue-800'
+                : 'hover:bg-gray-100'
+            }`}
+          >
+            {actividad}
+          </span>
+        ))}
       </div>
 
       {isModalOpen && (
@@ -218,14 +217,14 @@ const Clientes = () => {
                   ))}
                 </select>
               </div>
+
               <div className="flex justify-end space-x-4">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
                   className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
-                >
-                  Cancelar
-                </button>
+                ></button>Cancelar
+            
                 <button
                   type="submit"
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
@@ -237,9 +236,9 @@ const Clientes = () => {
           </div>
         </div>
       )}
-
+  
       {error && <div className="p-4 bg-red-500 text-white">{error}</div>}
-
+  
       <section>
         <h2 className="text-2xl font-semibold mb-4">Lista de Clientes</h2>
         <div className="bg-gray-900 p-6 rounded-lg shadow-md overflow-x-auto">
@@ -270,7 +269,8 @@ const Clientes = () => {
         </div>
       </section>
     </div>
-  );
-};
-
-export default Clientes;
+    );
+  };
+  
+  export default Clientes;
+                

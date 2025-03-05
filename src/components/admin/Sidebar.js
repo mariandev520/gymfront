@@ -26,7 +26,7 @@ const Sidebar = ({ children }) => { // children es el contenido principal
       {/* Botón para abrir/cerrar el menú en móviles */}
       <button
         onClick={toggleMobileMenu}
-        className="md:hidden fixed top-4 left-4 bg-gray-600 text-white p-2 rounded-lg z-50"
+        className="md:hidden fixed top-2 left-2 bg-gray-900 text-white p-2 rounded-lg z-50"
       >
         <div className="space-y-1">
           <span className="block w-6 h-1 bg-white"></span>
@@ -44,7 +44,7 @@ const Sidebar = ({ children }) => { // children es el contenido principal
         {/* Botón para minimizar/maximizar la barra lateral (solo en escritorio) */}
         <button
           onClick={toggleSidebar}
-          className="hidden md:block w-full text-left mb-4 p-2 hover:bg-gray-700 rounded-lg transition duration-300"
+          className="hidden md:block w-full text-left mb-4 p-2 hover:bg-gray-900 rounded-lg transition duration-300"
         >
           <div className="space-y-1">
             <span className="block w-6 h-1 bg-white"></span>
@@ -55,7 +55,7 @@ const Sidebar = ({ children }) => { // children es el contenido principal
 
         {/* Título de la sección */}
         <p className="text-sm font-semibold uppercase text-gray-400 mb-4">
-          Administración
+          Admin
         </p>
 
         {/* Lista de enlaces */}

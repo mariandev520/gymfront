@@ -1,7 +1,7 @@
 // server/routes/clases.js
 const express = require('express');
 const router = express.Router();
-const clasesController = require('../controllers/clasesController');
+const clasesController = require('../controllers/ClasesController');
 
 // Crear una nueva clase
 router.post('/', clasesController.createClase);

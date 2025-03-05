@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "/Navbar";
+
 import Sidebar from "/Sidebar"; // Asegúrate de que la ruta sea correcta
 import Clientes from "/Clientes"; // Asegúrate de que la ruta sea correcta
 
@@ -13,7 +13,7 @@ const Layout = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navbar */}
-      <Navbar toggleSidebar={toggleSidebar} />
+    
 
       {/* Contenedor principal (Sidebar + Clientes) */}
       <div className="flex flex-1 overflow-hidden">
