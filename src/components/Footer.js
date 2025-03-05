@@ -9,7 +9,7 @@ const Footer = () => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-gradient-to-r from-blue-800  to-indigo-700 text-white py-6 "
+      className="bg-gradient-to-r from-cyan-900  to-indigo-700 text-white py-6 "
     >
       <div className="container mx-auto px-6">
         {/* Contenedor flexible para móviles y pantallas grandes */}

@@ -96,15 +96,15 @@ const Clientes = () => {
         Agregar Cliente
       </button>
 
-      <div className="mb-8">
+      <div className="mb-8 text-white">
         {actividadesList.map((actividad) => (
           <span
             key={actividad}
             onClick={() => handleFilterByActividad(actividad)}
             className={`cursor-pointer px-4 py-2 rounded transition duration-300 mr-4 mb-2 inline-block ${
               selectedActividad === actividad
-                ? 'bg-blue-200 text-blue-800'
-                : 'hover:bg-gray-100'
+                ? 'bg-blue-200 text-white'
+                : 'hover:bg-green'
             }`}
           >
             {actividad}
