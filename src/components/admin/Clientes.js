@@ -51,7 +51,7 @@ const Clientes = () => {
 
   const handleSubmitNewCliente = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/clientes', newCliente)
+    axios.post('http://192.168.1.41:3001/clientes', newCliente)
       .then(response => {
         setClientes([...clientes, response.data]);
         setNewCliente({
@@ -222,12 +222,12 @@ const Clientes = () => {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300"
-                ></button>Cancelar
+                  className="bg-gray-500 text-white px-8 py-4 rounded hover:bg-gray-500 transition duration-300"
+                >Cancelar </button>
             
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
+                  className="bg-green-400 text-white px-4 py-2 rounded hover:bg-black transition duration-300"
                 >
                   Agregar Cliente
                 </button>

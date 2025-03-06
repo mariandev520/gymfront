@@ -87,16 +87,16 @@ const Profes = () => {
 
       {/* Formulario para agregar un nuevo profesor */}
       <section className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Agregar Profesor</h2>
-        <form onSubmit={handleSubmitNewProfesor} className="bg-white p-6 rounded-lg shadow-md">
+        <h2 className="text-2xl text-gray-100 font-semibold mb-4">Agregar Profesor</h2>
+        <form onSubmit={handleSubmitNewProfesor} className="bg-black p-6 rounded-lg shadow-md">
           <div className="mb-4">
-            <label className="block text-gray-700">Nombre</label>
+            <label className="block text-gray-100">Nombre</label>
             <input
               type="text"
               name="nombre"
               value={newProfesor.nombre}
               onChange={handleInputChange}
-              className="w-full p-2 border border-gray-300 rounded mt-1"
+              className="w-full p-2 border border-gray-700 rounded mt-1 bg-gray-800 text-white"
               placeholder="Nombre del profesor"
               required
             />
@@ -112,9 +112,9 @@ const Profes = () => {
 
       {/* Formulario para actualizar un profesor */}
       {editProfesor && (
-        <section className="mb-8">
+        <section className="mb-8 bg-black">
           <h2 className="text-2xl font-semibold mb-4">Actualizar Profesor</h2>
-          <form onSubmit={handleUpdateProfesor} className="bg-white p-6 rounded-lg shadow-md">
+          <form onSubmit={handleUpdateProfesor} className="bg-black p-6 rounded-lg shadow-md">
             <div className="mb-4">
               <label className="block text-gray-700">Nombre</label>
               <input
@@ -122,7 +122,7 @@ const Profes = () => {
                 name="nombre"
                 value={editProfesor.nombre}
                 onChange={e => setEditProfesor({ ...editProfesor, nombre: e.target.value })}
-                className="w-full p-2 border border-gray-300 rounded mt-1"
+                className="w-full p-2 border border-gray-700 rounded mt-1 bg-gray-800 text-white"
                 required
               />
             </div>
@@ -139,17 +139,17 @@ const Profes = () => {
       {/* Lista de profesores */}
       <section>
         <h2 className="text-2xl font-semibold mb-4">Lista de Profesores</h2>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <table className="w-full table-auto">
+        <div className="bg-gray-900 p-6 rounded-lg shadow-md">
+          <table className="w-full text-gray-300 table-auto">
             <thead>
-              <tr className="bg-gray-200">
+              <tr className="bg-gray-500">
                 <th className="px-4 py-2">Nombre</th>
                 <th className="px-4 py-2">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {profesores.map(profesor => (
-                <tr key={profesor.id} className="border-b hover:bg-gray-50 transition duration-300">
+                <tr key={profesor.id} className="border-b hover:bg-red-300 transition duration-300">
                
                   <td className="px-4 py-2">{profesor.nombre}</td>
                   <td className="px-4 py-2">
