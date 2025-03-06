@@ -20,6 +20,7 @@ app.use('/clientes', clientesRoutes);
 app.use('/actividades', actividadesRoutes);
 app.use('/profesores', profesoresRoutes);  // Esto usa el router importado de routes/clientes
 
+
 app.listen(port, '0.0.0.0', () => {
   console.log(`Servidor ejecutándose en http://192.168.1.41:${port}`);
 });
