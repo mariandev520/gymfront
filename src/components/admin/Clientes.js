@@ -31,6 +31,12 @@ const Clientes = () => {
     fetchClientes();
   }, []);
 
+  fetch('https://gymfront-git-conmogose-mariandev520s-projects.vercel.app/clientes/clientes-con-profesores-y-actividades')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error en la API:', error));
+
+
   // Obtener la lista de clientes
   const fetchClientes = () => {
     axios.get('https://gymfront-git-conmogose-mariandev520s-projects.vercel.app/clientes/clientes-con-profesores-y-actividades')

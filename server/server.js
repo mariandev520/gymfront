@@ -22,7 +22,11 @@ mongoose
   });
 
 // Configurar CORS
-const allowedOrigins = ["http://localhost:3002", "http://192.168.1.41:3002","https://gymfront-git-conmogose-mariandev520s-projects.vercel.app:3002/"];
+const allowedOrigins = [
+  "http://localhost:3002", // Frontend local
+  "https://gymfront-git-conmogose-mariandev520s-projects.vercel.app", // Frontend en Vercel
+  "http://192.168.1.41:3002", // Frontend en la red local (opcional)
+];
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -50,7 +54,18 @@ app.get("/", (req, res) => {
   res.send("🔥 API funcionando correctamente!");
 });
 
+// Manejo de errores global
+app.use((err, req, res, next) => {
+  console.error("❌ Error:", err.message);
+  res.status(500).json({ message: "Error interno del servidor" });
+});
+
+// Ruta no encontrada
+app.use((req, res) => {
+  res.status(404).json({ message: "Ruta no encontrada" });
+});
+
 // Iniciar el servidor
 app.listen(port, "0.0.0.0", () => {
-  console.log(`✅ Servidor ejecutándose en http://192.168.1.41:${port}`);
+  console.log(`✅ Servidor ejecutándose en http://localhost:${port}`);
 });

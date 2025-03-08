@@ -10,7 +10,7 @@ const Profes = () => {
 
   // Obtener los profesores desde la API
   useEffect(() => {
-    axios.get('https://gymfront-git-conmogose-mariandev520s-projects.vercel.app/profesores')
+    axios.get('http://192.168.1.41:3001/profesores')
       .then(response => {
         setProfesores(response.data);
         setLoading(false);
@@ -31,7 +31,7 @@ const Profes = () => {
   // Agregar un nuevo profesor
   const handleSubmitNewProfesor = (e) => {
     e.preventDefault();
-    axios.post('https://gymfront-git-conmogose-mariandev520s-projects.vercel.app/profesores', newProfesor)
+    axios.post('http://192.168.1.41:3001/profesores', newProfesor)
       .then(response => {
         setProfesores([...profesores, response.data]);
         setNewProfesor({ nombre: '' });
@@ -44,7 +44,7 @@ const Profes = () => {
 
   // Eliminar un profesor
   const handleDeleteProfesor = (id) => {
-    axios.delete(`https://gymfront-git-conmogose-mariandev520s-projects.vercel.app/profesores/${id}`)
+    axios.delete(`http://192.168.1.41:3001/profesores/${id}`)
       .then(() => {
         setProfesores(profesores.filter(profesor => profesor._id !== id));
       })
@@ -62,7 +62,7 @@ const Profes = () => {
   // Actualizar un profesor
   const handleUpdateProfesor = (e) => {
     e.preventDefault();
-    axios.put(`https://gymfront-git-conmogose-mariandev520s-projects.vercel.app/profesores/${editProfesor._id}`, editProfesor)
+    axios.put(`http://192.168.1.41:3001/profesores/${editProfesor._id}`, editProfesor)
       .then(response => {
         setProfesores(profesores.map(profesor =>
           profesor._id === editProfesor._id ? response.data : profesor
