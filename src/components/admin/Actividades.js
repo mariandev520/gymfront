@@ -10,7 +10,7 @@ const Actividades = () => {
 
   // Obtener actividades al cargar el componente
   useEffect(() => {
-    axios.get('http://192.168.1.41:3001/actividades')
+    axios.get('https://gymfront-git-conmogose-mariandev520s-projects.vercel.app?_vercel_share=jSx59GdtUZDvIxrRG6hxWWGSeele7Xgq/actividades')
       .then(response => {
         setActividades(response.data);
         setLoading(false);
@@ -31,7 +31,7 @@ const Actividades = () => {
   // Agregar una nueva actividad
   const handleSubmitNewActividad = (e) => {
     e.preventDefault();
-    axios.post('http://192.168.1.41:3001/actividades', newActividad)
+    axios.post('https://gymfront-git-conmogose-mariandev520s-projects.vercel.app?_vercel_share=jSx59GdtUZDvIxrRG6hxWWGSeele7Xgq/actividades', newActividad)
       .then(response => {
         setActividades([...actividades, response.data]);
         setNewActividad({ nombre: '' });
@@ -44,7 +44,7 @@ const Actividades = () => {
 
   // Eliminar una actividad
   const handleDeleteActividad = (id) => {
-    axios.delete(`http://192.168.1.41:3001/actividades/${id}`)
+    axios.delete(`https://gymfront-git-conmogose-mariandev520s-projects.vercel.app?_vercel_share=jSx59GdtUZDvIxrRG6hxWWGSeele7Xgq/actividades/${id}`)
       .then(() => {
         setActividades(actividades.filter(actividad => actividad._id !== id));
       })
@@ -62,7 +62,7 @@ const Actividades = () => {
   // Actualizar una actividad
   const handleUpdateActividad = (e) => {
     e.preventDefault();
-    axios.put(`http://192.168.1.41:3001/actividades/${editActividad._id}`, editActividad)
+    axios.put(`https://gymfront-git-conmogose-mariandev520s-projects.vercel.app?_vercel_share=jSx59GdtUZDvIxrRG6hxWWGSeele7Xgq/actividades/${editActividad._id}`, editActividad)
       .then(response => {
         setActividades(actividades.map(actividad =>
           actividad._id === editActividad._id ? response.data : actividad
