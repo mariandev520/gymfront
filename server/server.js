@@ -22,7 +22,7 @@ mongoose
   });
 
 // Configurar CORS
-const allowedOrigins = ["http://localhost:3002", "http://192.168.1.41:3002"];
+const allowedOrigins = ["http://localhost:3002", "http://192.168.1.41:3002","https://gymfront-git-conmogose-mariandev520s-projects.vercel.app:3002/"];
 app.use(
   cors({
     origin: function (origin, callback) {
