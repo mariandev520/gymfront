@@ -31,15 +31,9 @@ const Clientes = () => {
     fetchClientes();
   }, []);
 
-  fetch('https://gymfront-git-conmogose-mariandev520s-projects.vercel.app/clientes/clientes-con-profesores-y-actividades')
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error('Error en la API:', error));
-
-
   // Obtener la lista de clientes
   const fetchClientes = () => {
-    axios.get('https://gymfront-git-conmogose-mariandev520s-projects.vercel.app/clientes/clientes-con-profesores-y-actividades')
+    axios.get('http://192.168.1.41:3001/clientes/clientes-con-profesores-y-actividades')
       .then(response => setClientes(response.data))
       .catch(error => console.error('Error fetching clientes:', error));
   };
@@ -88,7 +82,7 @@ const Clientes = () => {
       fetchClientes();
       setSelectedActividad(null);
     } else {
-      axios.get(`https://gymfront-git-conmogose-mariandev520s-projects.vercel.app/clientes/filtrar-por-actividad/${actividad}`)
+      axios.get(`http://192.168.1.41:3001/clientes/filtrar-por-actividad/${actividad}`)
         .then(response => setClientes(response.data))
         .catch(error => console.error('Error filtrando clientes por actividad:', error));
       setSelectedActividad(actividad);
