@@ -1,29 +1,138 @@
-// clientesController.js
+// controllers/clientesController.js
+const Cliente = require('../models/Cliente'); // Importar el modelo de Cliente
+const Actividad = require('../models/Actividad'); // Importar el modelo de Actividad
+const Profesor = require('../models/Profesor'); // Importar el modelo de Profesor
 
-module.exports.getClientes = (req, res) => {
-  // Lógica para obtener todos los clientes
+// Obtener clientes con sus profesores y actividades
+exports.getClientesConProfesoresYActividades = async (req, res) => {
+  try {
+    const clientes = await Cliente.aggregate([
+      {
+        $lookup: {
+          from: 'profesores', // Colección de profesores
+          localField: 'profesores', // Campo en Cliente que referencia a Profesor
+          foreignField: '_id',
+          as: 'profesores',
+        },
+      },
+      {
+        $lookup: {
+          from: 'actividades', // Colección de actividades
+          localField: 'actividades', // Campo en Cliente que referencia a Actividad
+          foreignField: '_id',
+          as: 'actividades',
+        },
+      },
+      {
+        $project: {
+          nombre: 1,
+          direccion: 1,
+          correo: 1,
+          telefono: 1,
+          tarifa_mensual: 1,
+          profesores: { $map: { input: '$profesores', as: 'prof', in: '$$prof.nombre' } },
+          actividades: { $map: { input: '$actividades', as: 'act', in: '$$act.nombre' } },
+        },
+      },
+    ]);
+
+    res.status(200).json(clientes);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener clientes', error: error.message });
+  }
 };
 
-module.exports.createCliente = (req, res) => {
-  // Lógica para crear un nuevo cliente
+// Filtrar clientes por actividad
+exports.getClientesByActividad = async (req, res) => {
+  const { actividades } = req.params;
+  try {
+    const clientes = await Cliente.find({ actividades: actividades });
+    res.status(200).json(clientes);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al filtrar clientes por actividad', error: error.message });
+  }
 };
 
-module.exports.getClienteById = (req, res) => {
-  // Lógica para obtener un cliente por ID
+// Obtener todos los clientes
+exports.getClientes = async (req, res) => {
+  try {
+    const clientes = await Cliente.find();
+    res.status(200).json(clientes);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener clientes', error: error.message });
+  }
 };
 
-module.exports.updateCliente = (req, res) => {
-  // Lógica para actualizar un cliente
+// Crear un nuevo cliente
+exports.createCliente = async (req, res) => {
+  const { nombre, correo, telefono, tarifa_mensual, actividades } = req.body;
+  try {
+    const nuevoCliente = new Cliente({ nombre, correo, telefono, tarifa_mensual, actividades });
+    await nuevoCliente.save();
+    res.status(201).json({ message: 'Cliente creado con éxito', id: nuevoCliente._id });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al crear cliente', error: error.message });
+  }
 };
 
-module.exports.deleteCliente = (req, res) => {
-  // Lógica para eliminar un cliente
+// Obtener un cliente por ID
+exports.getClienteById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const cliente = await Cliente.findById(id);
+    if (!cliente) {
+      return res.status(404).json({ message: 'Cliente no encontrado' });
+    }
+    res.status(200).json(cliente);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener cliente', error: error.message });
+  }
 };
 
-module.exports.getClientesConProfesoresYActividades = (req, res) => {
-  // Lógica para obtener clientes con sus profesores y actividades
+// Actualizar un cliente
+exports.updateCliente = async (req, res) => {
+  const { id } = req.params;
+  const { nombre, correo, telefono, tarifa_mensual, actividades } = req.body;
+  try {
+    const cliente = await Cliente.findByIdAndUpdate(
+      id,
+      { nombre, correo, telefono, tarifa_mensual, actividades },
+      { new: true }
+    );
+    if (!cliente) {
+      return res.status(404).json({ message: 'Cliente no encontrado' });
+    }
+    res.status(200).json({ message: 'Cliente actualizado con éxito', cliente });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al actualizar cliente', error: error.message });
+  }
 };
 
-module.exports.getClientesByActividad = (req, res) => {
-  // Lógica para filtrar clientes por actividad
+// Eliminar un cliente
+exports.deleteCliente = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const cliente = await Cliente.findByIdAndDelete(id);
+    if (!cliente) {
+      return res.status(404).json({ message: 'Cliente no encontrado' });
+    }
+    res.status(200).json({ message: 'Cliente eliminado con éxito' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al eliminar cliente', error: error.message });
+  }
+};
+
+// Verificar si el cliente está inscrito
+exports.verificarInscripcion = async (req, res) => {
+  const { nombre, apellido } = req.body;
+  try {
+    const cliente = await Cliente.findOne({ nombre, apellido });
+    if (cliente) {
+      res.json({ inscrito: true, cliente });
+    } else {
+      res.json({ inscrito: false });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Error al verificar inscripción', error: error.message });
+  }
 };

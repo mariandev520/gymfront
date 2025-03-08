@@ -1,7 +1,7 @@
-// server/routes/profesores.js
+// routes/profesores.js
 const express = require('express');
 const router = express.Router();
-const profesoresController = require('../controllers/ProfesoresController');
+const profesoresController = require('../controllers/profesoresController');
 
 // Crear un nuevo profesor
 router.post('/', profesoresController.createProfesor);

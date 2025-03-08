@@ -1,74 +1,84 @@
 // controllers/actividadesController.js
-const connection = require('../db');
+const Actividad = require('../models/Actividad'); // Importar el modelo de Actividad
 
 // Crear una actividad
-exports.createActividad = (req, res) => {
-  const { nombre } = req.body;  // Obtener los datos del cuerpo de la solicitud
-  const query = 'INSERT INTO actividades (nombre) VALUES (?)';  // Query para agregar la actividad
+exports.createActividad = async (req, res) => {
+  const { nombre } = req.body;
 
-  connection.query(query, [nombre], (err, result) => {
-    if (err) {
-      res.status(500).json({ message: 'Error al agregar actividad', error: err });
+  try {
+    const nuevaActividad = new Actividad({ nombre });
+    await nuevaActividad.save();
+    res.status(201).json({ message: 'Actividad creada con éxito', id: nuevaActividad._id });
+  } catch (error) {
+    if (error.code === 11000) { // Error de duplicado (nombre único)
+      res.status(400).json({ message: 'El nombre de la actividad ya existe' });
     } else {
-      res.status(201).json({ message: 'Actividad agregada con éxito', id: result.insertId });
+      res.status(500).json({ message: 'Error al crear la actividad', error: error.message });
     }
-  });
+  }
 };
 
 // Obtener todas las actividades
-exports.getActividades = (req, res) => {
-  const query = 'SELECT * FROM actividades';
-  connection.query(query, (err, results) => {
-    if (err) {
-      res.status(500).json({ message: 'Error al obtener actividades', error: err });
-    } else {
-      res.status(200).json(results);
-    }
-  });
+exports.getActividades = async (req, res) => {
+  try {
+    const actividades = await Actividad.find();
+    res.status(200).json(actividades);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener actividades', error: error.message });
+  }
 };
 
 // Obtener una actividad por ID
-exports.getActividadById = (req, res) => {
+exports.getActividadById = async (req, res) => {
   const { id } = req.params;
-  const query = 'SELECT * FROM actividades WHERE id = ?';
-  connection.query(query, [id], (err, result) => {
-    if (err) {
-      res.status(500).json({ message: 'Error al obtener la actividad', error: err });
-    } else if (result.length === 0) {
-      res.status(404).json({ message: 'Actividad no encontrada' });
-    } else {
-      res.status(200).json(result[0]);
+
+  try {
+    const actividad = await Actividad.findById(id);
+    if (!actividad) {
+      return res.status(404).json({ message: 'Actividad no encontrada' });
     }
-  });
+    res.status(200).json(actividad);
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener la actividad', error: error.message });
+  }
 };
 
 // Actualizar una actividad
-exports.updateActividad = (req, res) => {
+exports.updateActividad = async (req, res) => {
   const { id } = req.params;
   const { nombre } = req.body;
-  const query = 'UPDATE actividades SET nombre = ? WHERE id = ?';
-  connection.query(query, [nombre, id], (err, result) => {
-    if (err) {
-      res.status(500).json({ message: 'Error al actualizar actividad', error: err });
-    } else if (result.affectedRows === 0) {
-      res.status(404).json({ message: 'Actividad no encontrada' });
-    } else {
-      res.status(200).json({ message: 'Actividad actualizada con éxito' });
+
+  try {
+    const actividad = await Actividad.findByIdAndUpdate(
+      id,
+      { nombre },
+      { new: true, runValidators: true } // Retorna el documento actualizado y valida los campos
+    );
+
+    if (!actividad) {
+      return res.status(404).json({ message: 'Actividad no encontrada' });
     }
-  });
+    res.status(200).json({ message: 'Actividad actualizada con éxito', actividad });
+  } catch (error) {
+    if (error.code === 11000) { // Error de duplicado (nombre único)
+      res.status(400).json({ message: 'El nombre de la actividad ya existe' });
+    } else {
+      res.status(500).json({ message: 'Error al actualizar la actividad', error: error.message });
+    }
+  }
 };
 
 // Eliminar una actividad
-exports.deleteActividad = (req, res) => {
+exports.deleteActividad = async (req, res) => {
   const { id } = req.params;
-  const query = 'DELETE FROM actividades WHERE id = ?';
-  connection.query(query, [id], (err, result) => {
-    if (err) {
-      res.status(500).json({ message: 'Error al eliminar actividad', error: err });
-    } else if (result.affectedRows === 0) {
-      res.status(404).json({ message: 'Actividad no encontrada' });
-    } else {
-      res.status(200).json({ message: 'Actividad eliminada con éxito' });
+
+  try {
+    const actividad = await Actividad.findByIdAndDelete(id);
+    if (!actividad) {
+      return res.status(404).json({ message: 'Actividad no encontrada' });
     }
-  });
+    res.status(200).json({ message: 'Actividad eliminada con éxito' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al eliminar la actividad', error: error.message });
+  }
 };

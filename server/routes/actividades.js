@@ -1,13 +1,13 @@
 // routes/actividades.js
 const express = require('express');
 const router = express.Router();
-const actividadesController = require('../controllers/ActividadesController');
+const actividadesController = require('../controllers/actividadesController');
 
 // Obtener todas las actividades
 router.get('/', actividadesController.getActividades);
 
 // Crear una nueva actividad
-router.post('/', actividadesController.createActividad);  // Verifica esta ruta
+router.post('/', actividadesController.createActividad);
 
 // Obtener una actividad por ID
 router.get('/:id', actividadesController.getActividadById);
