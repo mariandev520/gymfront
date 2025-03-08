@@ -14,7 +14,7 @@ const Profesores = () => {
 
   const fetchProfesores = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/profesores');
+      const response = await axios.get('/profesores');
       setProfesores(response.data);
       setLoading(false);
     } catch (err) {
@@ -32,7 +32,7 @@ const Profesores = () => {
   const handleSubmitNewProfesor = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/profesores', newProfesor);
+      const response = await axios.post('https://gymfront-git-conmogose-mariandev520s-projects.vercel.app/profesores', newProfesor);
       setProfesores([...profesores, response.data]);
       setNewProfesor({ nombre: '' });
     } catch (err) {
@@ -43,7 +43,7 @@ const Profesores = () => {
 
   const handleDeleteProfesor = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/profesores/${id}`);
+      await axios.delete(`https://gymfront-git-conmogose-mariandev520s-projects.vercel.app/profesores/${id}`);
       setProfesores(profesores.filter(profesor => profesor.id !== id));
     } catch (err) {
       console.error('Error al eliminar el profesor:', err);
@@ -58,7 +58,7 @@ const Profesores = () => {
   const handleUpdateProfesor = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:3001/profesores/${editProfesor.id}`, editProfesor);
+      const response = await axios.put(`https://gymfront-git-conmogose-mariandev520s-projects.vercel.app/profesores/${editProfesor.id}`, editProfesor);
       setProfesores(profesores.map(profesor =>
         profesor.id === editProfesor.id ? response.data : profesor
       ));
