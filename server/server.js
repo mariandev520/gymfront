@@ -24,7 +24,8 @@ mongoose
 // Configurar CORS
 const allowedOrigins = [
   "http://localhost:3002", // Frontend local
-  "https://gymfront-git-conmogose-mariandev520s-projects.vercel.app", // Frontend en Vercel
+  "http://gymfront-git-conmogose-mariandev520s-projects.vercel.app",
+  "https://gymfront-5rox7vcq2-mariandev520s-projects.vercel.app" ,// Frontend en Vercel
   "http://192.168.1.41:3002", // Frontend en la red local (opcional)
 ];
 app.use(
