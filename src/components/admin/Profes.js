@@ -10,7 +10,7 @@ const Profes = () => {
 
   // Obtener los profesores desde la API
   useEffect(() => {
-    axios.get('http://localhost:3001/profesores')
+    axios.get('http://192.168.1.41:3001/profesores')
       .then(response => {
         setProfesores(response.data);
         setLoading(false);
@@ -22,14 +22,16 @@ const Profes = () => {
       });
   }, []);
 
+  // Manejar cambios en los inputs del formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewProfesor({ ...newProfesor, [name]: value });
   };
 
+  // Agregar un nuevo profesor
   const handleSubmitNewProfesor = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/profesores', newProfesor)
+    axios.post('http://192.168.1.41:3001/profesores', newProfesor)
       .then(response => {
         setProfesores([...profesores, response.data]);
         setNewProfesor({ nombre: '' });
@@ -40,10 +42,11 @@ const Profes = () => {
       });
   };
 
+  // Eliminar un profesor
   const handleDeleteProfesor = (id) => {
-    axios.delete(`http://localhost:3001/profesores/${id}`)
-      .then(response => {
-        setProfesores(profesores.filter(profesor => profesor.id !== id));
+    axios.delete(`http://192.168.1.41:3001/profesores/${id}`)
+      .then(() => {
+        setProfesores(profesores.filter(profesor => profesor._id !== id));
       })
       .catch(error => {
         console.error('Error al eliminar el profesor:', error);
@@ -51,16 +54,18 @@ const Profes = () => {
       });
   };
 
+  // Editar un profesor
   const handleEditProfesor = (profesor) => {
     setEditProfesor(profesor);
   };
 
+  // Actualizar un profesor
   const handleUpdateProfesor = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:3001/profesores/${editProfesor.id}`, editProfesor)
+    axios.put(`http://192.168.1.41:3001/profesores/${editProfesor._id}`, editProfesor)
       .then(response => {
         setProfesores(profesores.map(profesor =>
-          profesor.id === editProfesor.id ? response.data : profesor
+          profesor._id === editProfesor._id ? response.data : profesor
         ));
         setEditProfesor(null);
       })
@@ -70,12 +75,13 @@ const Profes = () => {
       });
   };
 
+  // Mostrar mensaje de carga
   if (loading) {
-    return <div className="text-center py-8">Cargando profesores...</div>;
+    return <div className="text-center py-8 text-white">Cargando profesores...</div>;
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 bg-black min-h-screen text-white">
       <h1 className="text-3xl font-bold text-center mb-8">Profesores</h1>
 
       {/* Mensaje de error */}
@@ -87,10 +93,10 @@ const Profes = () => {
 
       {/* Formulario para agregar un nuevo profesor */}
       <section className="mb-8">
-        <h2 className="text-2xl text-gray-100 font-semibold mb-4">Agregar Profesor</h2>
-        <form onSubmit={handleSubmitNewProfesor} className="bg-black p-6 rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold mb-4">Agregar Profesor</h2>
+        <form onSubmit={handleSubmitNewProfesor} className="bg-gray-900 p-6 rounded-lg shadow-md">
           <div className="mb-4">
-            <label className="block text-gray-100">Nombre</label>
+            <label className="block text-white">Nombre</label>
             <input
               type="text"
               name="nombre"
@@ -112,11 +118,11 @@ const Profes = () => {
 
       {/* Formulario para actualizar un profesor */}
       {editProfesor && (
-        <section className="mb-8 bg-black">
+        <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Actualizar Profesor</h2>
-          <form onSubmit={handleUpdateProfesor} className="bg-black p-6 rounded-lg shadow-md">
+          <form onSubmit={handleUpdateProfesor} className="bg-gray-900 p-6 rounded-lg shadow-md">
             <div className="mb-4">
-              <label className="block text-gray-700">Nombre</label>
+              <label className="block text-white">Nombre</label>
               <input
                 type="text"
                 name="nombre"
@@ -142,15 +148,14 @@ const Profes = () => {
         <div className="bg-gray-900 p-6 rounded-lg shadow-md">
           <table className="w-full text-gray-300 table-auto">
             <thead>
-              <tr className="bg-gray-500">
+              <tr className="bg-gray-700">
                 <th className="px-4 py-2">Nombre</th>
                 <th className="px-4 py-2">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {profesores.map(profesor => (
-                <tr key={profesor.id} className="border-b hover:bg-red-300 transition duration-300">
-               
+                <tr key={profesor._id} className="border-b border-gray-700 hover:bg-gray-800 transition duration-300">
                   <td className="px-4 py-2">{profesor.nombre}</td>
                   <td className="px-4 py-2">
                     <div className="flex justify-center space-x-2">
@@ -162,7 +167,7 @@ const Profes = () => {
                       </button>
                       <button
                         className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300"
-                        onClick={() => handleDeleteProfesor(profesor.id)}
+                        onClick={() => handleDeleteProfesor(profesor._id)}
                       >
                         Eliminar
                       </button>

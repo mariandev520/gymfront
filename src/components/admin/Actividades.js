@@ -8,8 +8,9 @@ const Actividades = () => {
   const [editActividad, setEditActividad] = useState(null);
   const [error, setError] = useState('');
 
+  // Obtener actividades al cargar el componente
   useEffect(() => {
-    axios.get('http://localhost:3001/actividades')
+    axios.get('http://192.168.1.41:3001/actividades')
       .then(response => {
         setActividades(response.data);
         setLoading(false);
@@ -21,14 +22,16 @@ const Actividades = () => {
       });
   }, []);
 
+  // Manejar cambios en los inputs del formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewActividad({ ...newActividad, [name]: value });
   };
 
+  // Agregar una nueva actividad
   const handleSubmitNewActividad = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:3001/actividades', newActividad)
+    axios.post('http://192.168.1.41:3001/actividades', newActividad)
       .then(response => {
         setActividades([...actividades, response.data]);
         setNewActividad({ nombre: '' });
@@ -39,10 +42,11 @@ const Actividades = () => {
       });
   };
 
+  // Eliminar una actividad
   const handleDeleteActividad = (id) => {
-    axios.delete(`http://localhost:3001/actividades/${id}`)
-      .then(response => {
-        setActividades(actividades.filter(actividad => actividad.id !== id));
+    axios.delete(`http://192.168.1.41:3001/actividades/${id}`)
+      .then(() => {
+        setActividades(actividades.filter(actividad => actividad._id !== id));
       })
       .catch(error => {
         console.error('Error al eliminar la actividad:', error);
@@ -50,16 +54,18 @@ const Actividades = () => {
       });
   };
 
+  // Editar una actividad
   const handleEditActividad = (actividad) => {
     setEditActividad(actividad);
   };
 
+  // Actualizar una actividad
   const handleUpdateActividad = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:3001/actividades/${editActividad.id}`, editActividad)
+    axios.put(`http://192.168.1.41:3001/actividades/${editActividad._id}`, editActividad)
       .then(response => {
         setActividades(actividades.map(actividad =>
-          actividad.id === editActividad.id ? response.data : actividad
+          actividad._id === editActividad._id ? response.data : actividad
         ));
         setEditActividad(null);
       })
@@ -69,6 +75,7 @@ const Actividades = () => {
       });
   };
 
+  // Mostrar mensaje de carga
   if (loading) {
     return <div className="text-center py-8 text-white">Cargando actividades...</div>;
   }
@@ -77,6 +84,8 @@ const Actividades = () => {
     <div className="container mx-auto p-4 bg-black min-h-screen text-white">
       <h1 className="text-3xl font-bold text-center mb-8">Actividades</h1>
       {error && <div className="bg-red-500 text-white p-4 rounded-lg mb-6">{error}</div>}
+
+      {/* Formulario para agregar una nueva actividad */}
       <section className="mb-8">
         <h2 className="text-2xl font-semibold mb-4">Agregar Actividad</h2>
         <form onSubmit={handleSubmitNewActividad} className="bg-gray-900 p-6 rounded-lg shadow-md">
@@ -97,6 +106,8 @@ const Actividades = () => {
           </button>
         </form>
       </section>
+
+      {/* Formulario para actualizar una actividad */}
       {editActividad && (
         <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">Actualizar Actividad</h2>
@@ -118,18 +129,26 @@ const Actividades = () => {
           </form>
         </section>
       )}
+
+      {/* Lista de actividades */}
       <section>
         <h2 className="text-2xl font-semibold mb-4">Lista de Actividades</h2>
         <div className="bg-gray-900 p-6 rounded-lg shadow-md">
           <ul className="space-y-4">
             {actividades.map(actividad => (
-              <li key={actividad.id} className="bg-gray-800 p-4 rounded-lg shadow-sm flex justify-between items-center">
+              <li key={actividad._id} className="bg-gray-800 p-4 rounded-lg shadow-sm flex justify-between items-center">
                 <span className="text-lg text-white">{actividad.nombre}</span>
                 <div className="flex space-x-2">
-                  <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition duration-300" onClick={() => handleEditActividad(actividad)}>
+                  <button
+                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition duration-300"
+                    onClick={() => handleEditActividad(actividad)}
+                  >
                     Editar
                   </button>
-                  <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300" onClick={() => handleDeleteActividad(actividad.id)}>
+                  <button
+                    className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300"
+                    onClick={() => handleDeleteActividad(actividad._id)}
+                  >
                     Eliminar
                   </button>
                 </div>
