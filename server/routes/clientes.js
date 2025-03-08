@@ -23,24 +23,23 @@ router.put('/:id', clientesController.updateCliente);
 // Eliminar un cliente
 router.delete('/:id', clientesController.deleteCliente);
 
-router.post('/clientes', (req, res) => {
-    const { nombre, apellido } = req.body;
-  
-    const query = 'SELECT * FROM clientes WHERE nombre = ? ';
-    connection.query(query, [nombre, apellido], (err, results) => {
-      if (err) {
-        console.error('Error al ejecutar la consulta:', err);
-        res.status(500).json({ error: 'Error interno del servidor' });
-        return;
-      }
-  
-      if (results.length > 0) {
-        res.json({ inscrito: true, cliente: results[0] });
-      } else {
-        res.json({ inscrito: false });
-      }
-    });
-  });
-  
+// Nuevo código: Verificar si el cliente está inscrito usando MongoDB
+router.post('/clientes', async (req, res) => {
+  const { nombre, apellido } = req.body;
+
+  try {
+    const database = await connectDB(); // Conexión a la base de datos MongoDB
+    const cliente = await database.collection("clientes").findOne({ nombre, apellido });
+
+    if (cliente) {
+      res.json({ inscrito: true, cliente });
+    } else {
+      res.json({ inscrito: false });
+    }
+  } catch (error) {
+    console.error("Error al consultar MongoDB:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
 
 module.exports = router;
