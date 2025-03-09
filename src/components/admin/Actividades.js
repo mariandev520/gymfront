@@ -1,81 +1,94 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+const API_BASE_URL = "https://5ac6-2802-8012-2930-a901-6197-9b85-2698-663a.ngrok-free.app";
+
+const axiosInstance = axios.create({
+  baseURL: API_BASE_URL,
+  headers: { "ngrok-skip-browser-warning": "true" },
+});
 
 const Actividades = () => {
   const [actividades, setActividades] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [newActividad, setNewActividad] = useState({ nombre: '' });
+  const [newActividad, setNewActividad] = useState({ nombre: "" });
   const [editActividad, setEditActividad] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  // Obtener actividades al cargar el componente
+  // 🔹 Obtener actividades al cargar el componente
   useEffect(() => {
-    axios.get('http://192.168.1.41:3001/actividades')
-      .then(response => {
+    axiosInstance
+      .get("/actividades")
+      .then((response) => {
         setActividades(response.data);
         setLoading(false);
       })
-      .catch(error => {
-        console.error('Error al obtener las actividades:', error);
-        setError('Hubo un problema al obtener las actividades.');
+      .catch((error) => {
+        console.error("Error al obtener las actividades:", error);
+        setError("Hubo un problema al obtener las actividades.");
         setLoading(false);
       });
   }, []);
 
-  // Manejar cambios en los inputs del formulario
+  // 🔹 Manejar cambios en los inputs del formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewActividad({ ...newActividad, [name]: value });
   };
 
-  // Agregar una nueva actividad
+  // 🔹 Agregar una nueva actividad
   const handleSubmitNewActividad = (e) => {
     e.preventDefault();
-    axios.post('http://192.168.1.41:3001/actividades', newActividad)
-      .then(response => {
+    axiosInstance
+      .post("/actividades", newActividad)
+      .then((response) => {
         setActividades([...actividades, response.data]);
-        setNewActividad({ nombre: '' });
+        setNewActividad({ nombre: "" });
       })
-      .catch(error => {
-        console.error('Error al agregar la actividad:', error);
-        setError('Hubo un problema al agregar la actividad.');
+      .catch((error) => {
+        console.error("Error al agregar la actividad:", error);
+        setError("Hubo un problema al agregar la actividad.");
       });
   };
 
-  // Eliminar una actividad
+  // 🔹 Eliminar una actividad
   const handleDeleteActividad = (id) => {
-    axios.delete(`http://192.168.1.41:3001/actividades/${id}`)
+    axiosInstance
+      .delete(`/actividades/${id}`)
       .then(() => {
-        setActividades(actividades.filter(actividad => actividad._id !== id));
+        setActividades(actividades.filter((actividad) => actividad._id !== id));
       })
-      .catch(error => {
-        console.error('Error al eliminar la actividad:', error);
-        setError('Hubo un problema al eliminar la actividad.');
+      .catch((error) => {
+        console.error("Error al eliminar la actividad:", error);
+        setError("Hubo un problema al eliminar la actividad.");
       });
   };
 
-  // Editar una actividad
+  // 🔹 Editar una actividad
   const handleEditActividad = (actividad) => {
     setEditActividad(actividad);
   };
 
-  // Actualizar una actividad
+  // 🔹 Actualizar una actividad
   const handleUpdateActividad = (e) => {
     e.preventDefault();
-    axios.put(`http://192.168.1.41:3001/actividades/${editActividad._id}`, editActividad)
-      .then(response => {
-        setActividades(actividades.map(actividad =>
-          actividad._id === editActividad._id ? response.data : actividad
-        ));
+    axiosInstance
+      .put(`/actividades/${editActividad._id}`, editActividad)
+      .then((response) => {
+        setActividades(
+          actividades.map((actividad) =>
+            actividad._id === editActividad._id ? response.data : actividad
+          )
+        );
         setEditActividad(null);
       })
-      .catch(error => {
-        console.error('Error al actualizar la actividad:', error);
-        setError('Hubo un problema al actualizar la actividad.');
+      .catch((error) => {
+        console.error("Error al actualizar la actividad:", error);
+        setError("Hubo un problema al actualizar la actividad.");
       });
   };
 
-  // Mostrar mensaje de carga
+  // 🔹 Mostrar mensaje de carga
   if (loading) {
     return <div className="text-center py-8 text-white">Cargando actividades...</div>;
   }
@@ -118,7 +131,9 @@ const Actividades = () => {
                 type="text"
                 name="nombre"
                 value={editActividad.nombre}
-                onChange={e => setEditActividad({ ...editActividad, nombre: e.target.value })}
+                onChange={(e) =>
+                  setEditActividad({ ...editActividad, nombre: e.target.value })
+                }
                 className="w-full p-2 border border-gray-700 rounded mt-1 bg-gray-800 text-white"
                 required
               />
@@ -135,7 +150,7 @@ const Actividades = () => {
         <h2 className="text-2xl font-semibold mb-4">Lista de Actividades</h2>
         <div className="bg-gray-900 p-6 rounded-lg shadow-md">
           <ul className="space-y-4">
-            {actividades.map(actividad => (
+            {actividades.map((actividad) => (
               <li key={actividad._id} className="bg-gray-800 p-4 rounded-lg shadow-sm flex justify-between items-center">
                 <span className="text-lg text-white">{actividad.nombre}</span>
                 <div className="flex space-x-2">
