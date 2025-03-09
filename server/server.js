@@ -3,7 +3,6 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-// Importar rutas
 const clientesRoutes = require("./routes/clientes");
 const actividadesRoutes = require("./routes/actividades");
 const profesoresRoutes = require("./routes/profesores");
@@ -21,13 +20,13 @@ mongoose
     process.exit(1);
   });
 
-// 🔹 Configurar CORS (Permitir solo ciertos dominios)
+// 🔹 Configurar CORS (Permitir ngrok-skip-browser-warning)
 const allowedOrigins = [
   "http://localhost:3002",
   "https://gymfront.vercel.app",
   "http://gymfront-git-conmogose-mariandev520s-projects.vercel.app",
   "http://192.168.1.41:3002",
-  "https://06fc-201-178-206-232.ngrok-free.app" // URL de ngrok si la usas
+  "https://5ac6-2802-8012-2930-a901-6197-9b85-2698-663a.ngrok-free.app", // URL de ngrok
 ];
 
 app.use(
@@ -40,9 +39,15 @@ app.use(
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "ngrok-skip-browser-warning"],
   })
 );
+
+// 🔹 Middleware para evitar el error de ngrok
+app.use((req, res, next) => {
+  res.header("ngrok-skip-browser-warning", "true");
+  next();
+});
 
 // Middleware para interpretar JSON
 app.use(express.json());
