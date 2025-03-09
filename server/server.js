@@ -29,7 +29,7 @@ const allowedOrigins = [
   "https://gymfront.vercel.app/",
   "http://gymfront-git-conmogose-mariandev520s-projects.vercel.app",
   "http://192.168.1.41:3002",
-  "https://06fc-201-178-206-232.ngrok-free.app", // Agregar la URL de ngrok
+  "https://42f6-201-178-206-232.ngrok-free.app/", // Agregar la URL de ngrok
 ];
 app.use(
   cors({
