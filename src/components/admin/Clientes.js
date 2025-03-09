@@ -18,14 +18,14 @@ const Clientes = () => {
   const [error, setError] = useState('');
   const [selectedActividad, setSelectedActividad] = useState(null);
   const axiosInstance = axios.create({
-    baseURL:  "https://5ac6-2802-8012-2930-a901-6197-9b85-2698-663a.ngrok-free.app"
+    baseURL:  "https://28b9-201-178-206-232.ngrok-free.app"
     ,
     headers: { "ngrok-skip-browser-warning": "true" },
   });
   
   // Obtener actividades y profesores al cargar el componente
   useEffect(() => {
-    axios.get('https://5ac6-2802-8012-2930-a901-6197-9b85-2698-663a.ngrok-free.app/actividades')
+    axios.get('https://28b9-201-178-206-232.ngrok-free.app/actividades')
       .then(response => setActividades(response.data))
       .catch(error => console.error('Error fetching actividades:', error));
 axiosInstance('/profesores')
@@ -61,7 +61,7 @@ axiosInstance('/profesores')
   const handleSubmitNewCliente = (e) => {
     e.preventDefault();
      
-    axios.post('https://5ac6-2802-8012-2930-a901-6197-9b85-2698-663a.ngrok-free.app/clientes', newCliente)
+    axios.post('https://28b9-201-178-206-232.ngrok-free.app/clientes', newCliente)
       .then(response => {
         setClientes([...clientes, response.data]);
         setNewCliente({
@@ -87,7 +87,7 @@ axiosInstance('/profesores')
       fetchClientes();
       setSelectedActividad(null);
     } else {
-      axiosInstance(`https://5ac6-2802-8012-2930-a901-6197-9b85-2698-663a.ngrok-free.app/clientes/filtrar-por-actividad/${actividad}`)
+      axiosInstance(`https://28b9-201-178-206-232.ngrok-free.app/clientes/filtrar-por-actividad/${actividad}`)
         .then(response => setClientes(response.data))
         .catch(error => console.error('Error filtrando clientes por actividad:', error));
       setSelectedActividad(actividad);

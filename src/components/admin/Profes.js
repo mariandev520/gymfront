@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_BASE_URL = "https://5ac6-2802-8012-2930-a901-6197-9b85-2698-663a.ngrok-free.app";
+const API_BASE_URL = "https://28b9-201-178-206-232.ngrok-free.app";
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
