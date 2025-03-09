@@ -20,11 +20,11 @@ const Clientes = () => {
 
   // Obtener actividades y profesores al cargar el componente
   useEffect(() => {
-    axios.get('https://gymfront.vercel.app/actividades')
+    axios.get('http://192.168.1.41:3001/actividades')
       .then(response => setActividades(response.data))
       .catch(error => console.error('Error fetching actividades:', error));
 
-    axios.get('https://gymfront.vercel.app/profesores')
+    axios.get('http://192.168.1.41:3001/profesores')
       .then(response => setProfesores(response.data))
       .catch(error => console.error('Error fetching profesores:', error));
 
@@ -33,7 +33,7 @@ const Clientes = () => {
 
   // Obtener la lista de clientes
   const fetchClientes = () => {
-    axios.get('https://gymfront.vercel.app/clientes/clientes-con-profesores-y-actividades')
+    axios.get('http://192.168.1.41:3001/clientes/clientes-con-profesores-y-actividades')
       .then(response => setClientes(response.data))
       .catch(error => console.error('Error fetching clientes:', error));
   };
@@ -56,7 +56,7 @@ const Clientes = () => {
   // Enviar el nuevo cliente al backend
   const handleSubmitNewCliente = (e) => {
     e.preventDefault();
-    axios.post('https://gymfront.vercel.app/clientes', newCliente)
+    axios.post('http://192.168.1.41:3001/clientes', newCliente)
       .then(response => {
         setClientes([...clientes, response.data]);
         setNewCliente({
@@ -82,7 +82,7 @@ const Clientes = () => {
       fetchClientes();
       setSelectedActividad(null);
     } else {
-      axios.get(`https://gymfront.vercel.app/clientes/filtrar-por-actividad/${actividad}`)
+      axios.get(`http://192.168.1.41:3001/clientes/filtrar-por-actividad/${actividad}`)
         .then(response => setClientes(response.data))
         .catch(error => console.error('Error filtrando clientes por actividad:', error));
       setSelectedActividad(actividad);
