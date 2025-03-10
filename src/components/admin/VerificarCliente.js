@@ -12,7 +12,7 @@ const axiosInstance = axios.create({
 });
 
 const VerificarCliente = () => {
-  // Usamos "tarifa" para el valor ingresado que se comparará con la columna 'tarifa_mensual'
+  // Usamos "tarifa" para el valor ingresado, que se comparará con la columna 'tarifa_mensual'
   const [tarifa, setTarifa] = useState("");
   const [cliente, setCliente] = useState(null);
   const [error, setError] = useState("");
@@ -28,8 +28,11 @@ const VerificarCliente = () => {
     }
 
     try {
+      // Convertir tarifa a número si es necesario
+      const tarifaNum = Number(tarifa);
       // Se llama a la ruta: /clientes/tarifa_mensual/:tarifa
-      const response = await axiosInstance.get(`/clientes/tarifa_mensual/${tarifa}`);
+      const response = await axiosInstance.get(`/clientes/tarifa_mensual/${tarifaNum}`);
+      console.log("Respuesta de la API:", response.data);
       setCliente(response.data);
     } catch (err) {
       console.error("Error al buscar cliente:", err);
@@ -54,14 +57,6 @@ const VerificarCliente = () => {
           placeholder="Ej: 28608102"
         />
 
-        {/* Si se encuentra un cliente, mostrar mensaje de coincidencia */}
-        {cliente && (
-          <p className="mb-4 text-green-600 text-center">
-            Se ha encontrado una coincidencia: {cliente.nombre}
-          </p>
-        )}
-
-        {/* Mostrar errores */}
         {error && (
           <div className="bg-red-500 text-white p-2 mb-4 text-center rounded">
             {error}
@@ -75,6 +70,31 @@ const VerificarCliente = () => {
           Verificar
         </button>
       </form>
+
+      {/* Card con datos del cliente cuando se encuentra coincidencia */}
+      {cliente && (
+        <div className="bg-white p-6 mt-6 rounded-lg shadow-xl w-full max-w-sm transform transition-all duration-300 hover:scale-105">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+            Datos del Cliente
+          </h2>
+          <p className="mb-2">
+            <span className="font-bold">Nombre:</span> {cliente.nombre}
+          </p>
+          <p className="mb-2">
+            <span className="font-bold">Tarifa Mensual:</span> {cliente.tarifa_mensual}
+          </p>
+          <p className="mb-2">
+            <span className="font-bold">Dirección:</span> {cliente.direccion || "N/A"}
+          </p>
+          <p className="mb-2">
+            <span className="font-bold">Teléfono:</span> {cliente.telefono || "N/A"}
+          </p>
+          <p className="mb-2">
+            <span className="font-bold">Correo:</span> {cliente.correo || "N/A"}
+          </p>
+          {/* Agrega otros campos si es necesario */}
+        </div>
+      )}
     </div>
   );
 };
