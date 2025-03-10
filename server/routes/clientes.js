@@ -1,4 +1,3 @@
-// routes/clientes.js
 const express = require('express');
 const router = express.Router();
 const clientesController = require('../controllers/ClientesController');
@@ -26,5 +25,8 @@ router.delete('/:id', clientesController.deleteCliente);
 
 // Verificar si el cliente está inscrito
 router.post('/verificar-inscripcion', clientesController.verificarInscripcion);
+
+// Obtener un cliente por tarifa_mensual (que se usa como DNI)
+router.get('/tarifa_mensual/:dni', clientesController.getClienteByTarifa);
 
 module.exports = router;

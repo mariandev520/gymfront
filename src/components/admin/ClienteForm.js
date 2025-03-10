@@ -87,14 +87,14 @@ const ClienteForm = ({ onSubmit, onCancel, cliente, actividades, profesores, isE
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700">Tarifa Mensual</label>
+            <label className="block text-gray-700">dni</label>
             <input
               type="number"
-              name="tarifa_mensual"
+              name="dni"
               value={formData.tarifa_mensual}
               onChange={handleInputChange}
               className="w-full p-2 border border-gray-300 rounded mt-1"
-              placeholder="Tarifa mensual"
+              placeholder="dni"
               required
             />
           </div>

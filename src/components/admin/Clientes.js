@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const axiosInstance = axios.create({
+  baseURL: "http://localhost:3001",
+  headers: { "ngrok-skip-browser-warning": "true" },
+});
+
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
   const [actividades, setActividades] = useState([]);
@@ -17,53 +22,52 @@ const Clientes = () => {
   });
   const [error, setError] = useState('');
   const [selectedActividad, setSelectedActividad] = useState(null);
-  const axiosInstance = axios.create({
-    baseURL:  "https://28b9-201-178-206-232.ngrok-free.app"
-    ,
-    headers: { "ngrok-skip-browser-warning": "true" },
-  });
-  
-  // Obtener actividades y profesores al cargar el componente
+
+  // 1) Obtener actividades y profesores al montar el componente
   useEffect(() => {
-    axios.get('https://28b9-201-178-206-232.ngrok-free.app/actividades')
+    axiosInstance.get('/actividades')
       .then(response => setActividades(response.data))
       .catch(error => console.error('Error fetching actividades:', error));
-axiosInstance('/profesores')
+
+    axiosInstance.get('/profesores')
       .then(response => setProfesores(response.data))
       .catch(error => console.error('Error fetching profesores:', error));
 
     fetchClientes();
   }, []);
 
-  // Obtener la lista de clientes
+  // 2) Obtener la lista de clientes
   const fetchClientes = () => {
-    axiosInstance('/clientes/clientes-con-profesores-y-actividades')
+    axiosInstance.get('/clientes/clientes-con-profesores-y-actividades')
       .then(response => setClientes(response.data))
       .catch(error => console.error('Error fetching clientes:', error));
   };
 
-  // Manejar cambios en los inputs del formulario
+  // 3) Manejar cambios en los inputs del formulario
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewCliente({ ...newCliente, [name]: value });
   };
 
-  // Manejar cambios en los selects del formulario
+  // 4) Manejar cambios en los selects del formulario
   const handleSelectChange = (e) => {
     const { name, options } = e.target;
     const selectedValues = Array.from(options)
       .filter(option => option.selected)
       .map(option => option.value);
+
     setNewCliente({ ...newCliente, [name]: selectedValues });
   };
 
-  // Enviar el nuevo cliente al backend
+  // 5) Enviar el nuevo cliente al backend con POST usando axiosInstance
   const handleSubmitNewCliente = (e) => {
     e.preventDefault();
-     
-    axios.post('https://28b9-201-178-206-232.ngrok-free.app/clientes', newCliente)
+
+    axiosInstance.post('/clientes', newCliente)
       .then(response => {
+        // Actualizar la lista de clientes
         setClientes([...clientes, response.data]);
+        // Limpiar el formulario
         setNewCliente({
           nombre: '',
           direccion: '',
@@ -73,6 +77,7 @@ axiosInstance('/profesores')
           actividades: [],
           profesores: [],
         });
+        // Cerrar modal
         setIsModalOpen(false);
       })
       .catch(error => {
@@ -81,20 +86,21 @@ axiosInstance('/profesores')
       });
   };
 
-  // Filtrar clientes por actividad
+  // 6) Filtrar clientes por actividad
   const handleFilterByActividad = (actividad) => {
     if (actividad === "Mostrar Todos") {
       fetchClientes();
       setSelectedActividad(null);
     } else {
-      axiosInstance(`https://28b9-201-178-206-232.ngrok-free.app/clientes/filtrar-por-actividad/${actividad}`)
+      axiosInstance.get(`/clientes/filtrar-por-actividad/${actividad}`)
         .then(response => setClientes(response.data))
         .catch(error => console.error('Error filtrando clientes por actividad:', error));
+
       setSelectedActividad(actividad);
     }
   };
 
-  // Lista de actividades para filtrar
+  // Opciones de actividades para filtrar
   const actividadesList = ["Pilates", "Spinning", "Yoga", "Mostrar Todos"];
 
   return (
@@ -207,7 +213,7 @@ axiosInstance('/profesores')
                   multiple
                   required
                 >
-                  {actividades.map(actividad => (
+                  {actividades.map((actividad) => (
                     <option key={actividad._id} value={actividad._id}>
                       {actividad.nombre}
                     </option>
@@ -225,7 +231,7 @@ axiosInstance('/profesores')
                   multiple
                   required
                 >
-                  {profesores.map(profesor => (
+                  {profesores.map((profesor) => (
                     <option key={profesor._id} value={profesor._id}>
                       {profesor.nombre}
                     </option>
@@ -233,17 +239,23 @@ axiosInstance('/profesores')
                 </select>
               </div>
 
+              {error && (
+                <div className="p-4 bg-red-500 text-white mb-4">
+                  {error}
+                </div>
+              )}
+
               <div className="flex justify-end space-x-4">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="bg-gray-500 text-white px-8 py-4 rounded hover:bg-gray-500 transition duration-300"
+                  className="bg-gray-500 text-white px-8 py-4 rounded hover:bg-gray-600 transition duration-300"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="bg-green-400 text-white px-4 py-2 rounded hover:bg-black transition duration-300"
+                  className="bg-green-400 text-white px-4 py-2 rounded hover:bg-green-500 transition duration-300"
                 >
                   Agregar Cliente
                 </button>
@@ -253,10 +265,7 @@ axiosInstance('/profesores')
         </div>
       )}
 
-      {/* Mostrar errores */}
-      {error && <div className="p-4 bg-red-500 text-white">{error}</div>}
-
-      {/* Tabla de clientes */}
+      {/* Lista de clientes */}
       <section>
         <h2 className="text-2xl font-semibold mb-4 text-white">Lista de Clientes</h2>
         <div className="bg-gray-900 p-6 rounded-lg shadow-md overflow-x-auto">
@@ -273,31 +282,32 @@ axiosInstance('/profesores')
             </thead>
             <tbody>
               {clientes.map((cliente) => {
-                // Convertir IDs de actividades a nombres
-                const actividadesNombres = cliente.actividades.map(id => {
-                  const actividad = actividades.find(a => a._id === id);
-                  return actividad ? actividad.nombre : "Desconocido";
-                }).join(', ');
+                const actividadesNombres = cliente.actividades
+                  .map((id) => {
+                    const actividad = actividades.find((a) => a._id === id);
+                    return actividad ? actividad.nombre : "Desconocido";
+                  })
+                  .join(", ");
 
-                // Convertir IDs de profesores a nombres
-                const profesoresNombres = cliente.profesores.map(id => {
-                  const profesor = profesores.find(p => p._id === id);
-                  return profesor ? profesor.nombre : "Desconocido";
-                }).join(', ');
+                const profesoresNombres = cliente.profesores
+                  .map((id) => {
+                    const profesor = profesores.find((p) => p._id === id);
+                    return profesor ? profesor.nombre : "Desconocido";
+                  })
+                  .join(", ");
 
                 return (
                   <React.Fragment key={cliente._id}>
-                    {/* Fila principal (Nombre y Actividad) */}
                     <tr className="border-4 border-gray-700 rounded hover:bg-gray-900 text-white transition duration-300">
                       <td className="px-4 bg-gray-900 text-gray-300 py-2">{cliente.nombre}</td>
                       <td className="px-4 bg-gray-900 text-gray-300 py-2">{actividadesNombres}</td>
-                      {/* Columnas ocultas en móviles */}
                       <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.direccion}</td>
                       <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.telefono}</td>
                       <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.correo}</td>
                       <td className="hidden sm:table-cell px-4 bg-gray-900 text-gray-300 py-2">{cliente.tarifa_mensual}</td>
                     </tr>
-                    {/* Fila adicional para móviles (detalles) */}
+
+                    {/* Fila adicional para vista móvil */}
                     <tr className="sm:hidden">
                       <td colSpan="2" className="px-4 bg-gray-900 text-gray-300 py-2">
                         <div className="flex flex-col space-y-2">

@@ -1,4 +1,3 @@
-// controllers/clientesController.js
 const Cliente = require('../models/Cliente'); // Importar el modelo de Cliente
 const Actividad = require('../models/Actividad'); // Importar el modelo de Actividad
 const Profesor = require('../models/Profesor'); // Importar el modelo de Profesor
@@ -35,7 +34,6 @@ exports.getClientesConProfesoresYActividades = async (req, res) => {
         },
       },
     ]);
-
     res.status(200).json(clientes);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener clientes', error: error.message });
@@ -122,7 +120,7 @@ exports.deleteCliente = async (req, res) => {
   }
 };
 
-// Verificar si el cliente está inscrito
+// Verificar si el cliente está inscrito (por nombre y apellido)
 exports.verificarInscripcion = async (req, res) => {
   const { nombre, apellido } = req.body;
   try {
@@ -134,5 +132,19 @@ exports.verificarInscripcion = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: 'Error al verificar inscripción', error: error.message });
+  }
+};
+
+// Obtener un cliente por tarifa_mensual (usado como DNI)
+exports.getClienteByTarifa = async (req, res) => {
+  const { dni } = req.params; // En este caso, "dni" se interpreta como tarifa_mensual
+  try {
+    const cliente = await Cliente.findOne({ tarifa_mensual: dni });
+    if (!cliente) {
+      return res.status(404).json({ message: "Cliente no encontrado" });
+    }
+    res.json(cliente);
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener cliente", error: error.message });
   }
 };

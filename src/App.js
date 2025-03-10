@@ -10,6 +10,9 @@ import Actividades from './components/admin/Actividades';
 import Pagos from './components/admin/Pagos';
 import Profes from './components/admin/Profes';
 
+// 🔹 Importar VerificarCliente
+import VerificarCliente from './components/admin/VerificarCliente'; 
+
 const App = () => {
   const [user, setUser] = useState(null); // Guardamos el estado del usuario
 
@@ -56,13 +59,17 @@ const App = () => {
               path="/administracion/pagos"
               element={user?.role === 'admin' ? <Pagos /> : <Navigate to="/login" />}
             />
+
+            {/* 🔹 Nueva ruta para VerificarCliente */}
+            <Route
+              path="/administracion/verificar-cliente"
+              element={user?.role === 'admin' ? <VerificarCliente /> : <Navigate to="/login" />}
+            />
           </Routes>
         </div>
-        
       </div>
       <Footer />
     </Router>
-
   );
 };
 

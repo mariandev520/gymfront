@@ -6,9 +6,10 @@ import {
   faDumbbell,
   faUserTie,
   faMoneyBill,
+  faIdCard // <-- IMPORTA UN ÍCONO PARA "Verificar Cliente"
 } from "@fortawesome/free-solid-svg-icons";
 
-const Sidebar = ({ children }) => { // children es el contenido principal
+const Sidebar = ({ children }) => {
   const location = useLocation();
   const [isMinimized, setIsMinimized] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -22,8 +23,8 @@ const Sidebar = ({ children }) => { // children es el contenido principal
   };
 
   return (
-    <div className=""> {/* Contenedor flex para la barra lateral y el contenido */}
-      {/* Botón para abrir/cerrar el menú en móviles */}
+    <div className="">
+      {/* Botón para menú en móviles */}
       <button
         onClick={toggleMobileMenu}
         className="md:hidden fixed top-2 left-2 bg-gray-900 text-white p-2 rounded-lg z-50"
@@ -41,7 +42,7 @@ const Sidebar = ({ children }) => { // children es el contenido principal
           isMinimized ? "w-20" : "w-64"
         } ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static`}
       >
-        {/* Botón para minimizar/maximizar la barra lateral (solo en escritorio) */}
+        {/* Botón para minimizar en escritorio */}
         <button
           onClick={toggleSidebar}
           className="hidden md:block w-full text-left mb-4 p-2 hover:bg-gray-900 rounded-lg transition duration-300"
@@ -53,12 +54,11 @@ const Sidebar = ({ children }) => { // children es el contenido principal
           </div>
         </button>
 
-        {/* Título de la sección */}
+        {/* Sección Admin */}
         <p className="text-sm font-semibold uppercase text-gray-400 mb-4">
           Admin
         </p>
 
-        {/* Lista de enlaces */}
         <ul className="space-y-2">
           <li>
             <Link
@@ -75,6 +75,7 @@ const Sidebar = ({ children }) => { // children es el contenido principal
               )}
             </Link>
           </li>
+
           <li>
             <Link
               to="/administracion/actividades"
@@ -90,6 +91,7 @@ const Sidebar = ({ children }) => { // children es el contenido principal
               )}
             </Link>
           </li>
+
           <li>
             <Link
               to="/administracion/profes"
@@ -105,6 +107,7 @@ const Sidebar = ({ children }) => { // children es el contenido principal
               )}
             </Link>
           </li>
+
           <li>
             <Link
               to="/administracion/pagos"
@@ -120,9 +123,36 @@ const Sidebar = ({ children }) => { // children es el contenido principal
               )}
             </Link>
           </li>
+
+          {/* NUEVO LINK: VERIFICAR CLIENTE */}
+          <li>
+            <Link
+              to="/administracion/verificar-cliente"
+              className={`flex items-center p-2 rounded-lg transition duration-300 ${
+                location.pathname === "/administracion/verificar-cliente"
+                  ? "bg-blue-600"
+                  : "hover:bg-gray-700"
+              }`}
+            >
+              <FontAwesomeIcon icon={faIdCard} className="w-6 h-6" />
+              {!isMinimized && (
+                <span className="ml-3 text-sm font-medium">
+                  Verificar Cliente
+                </span>
+              )}
+            </Link>
+          </li>
         </ul>
       </aside>
-      <div className={`flex-grow transition-all duration-300 ${isMinimized ? "ml-20" : "ml-64"}`}>{children}</div> {/* Contenido principal */}
+
+      {/* Contenido principal */}
+      <div
+        className={`flex-grow transition-all duration-300 ${
+          isMinimized ? "ml-20" : "ml-64"
+        }`}
+      >
+        {children}
+      </div>
     </div>
   );
 };
