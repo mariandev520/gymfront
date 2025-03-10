@@ -92,6 +92,9 @@ const VerificarCliente = () => {
           <p className="mb-2">
             <span className="font-bold">Correo:</span> {cliente.correo || "N/A"}
           </p>
+          <p className="mb-2">
+            <span className="font-bold">Clases:</span> { "Clases Pendientes 4 en el mes"}
+          </p>
           {/* Agrega otros campos si es necesario */}
         </div>
       )}
